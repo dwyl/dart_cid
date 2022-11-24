@@ -13,12 +13,12 @@ void main() {
 
     var bytes = utf8.encode(input); // data being hashed
     var digest = sha256.convert(bytes);
-    var byte_array = Uint8List.fromList(digest.bytes);
+    var byteArray = Uint8List.fromList(digest.bytes);
 
-    var encodedCuh = encode('sha2-256', byte_array, null);
+    var encodedCuh = encode('sha2-256', byteArray, null);
     var decodedCuh = decode(encodedCuh);
 
     var eq = const ListEquality().equals;
-    expect(eq(decodedCuh.digest, byte_array), true);
+    expect(eq(decodedCuh.digest, byteArray), true);
   });
 }

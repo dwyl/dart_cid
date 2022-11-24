@@ -7,14 +7,16 @@ import 'package:buffer/buffer.dart';
 import 'package:dart_cid/constants.dart';
 import 'package:flutter/foundation.dart';
 
+import 'models.dart';
+
 // using Uint8List because https://stackoverflow.com/questions/69090275/uint8list-vs-listint-what-is-the-difference/69091484#69091484
 
-HashInfo _coerceCode(String hashFunction) {
+HashFunctionConvention _coerceCode(String hashFunction) {
   if (!supportedHashFunctions.contains(hashFunction)) {
     throw Exception('Unsupported hash.');
   }
 
-  return hashTable.firstWhere((obj) => obj.hashName == hashFunction);
+  return hashTable.firstWhere((obj) => obj.hashFunctionName == hashFunction);
 }
 
 // Converts an int value to a varint (in Dart this is expressed as Uint8List - an array of bytes)
@@ -70,7 +72,7 @@ DecodedVarInt _decodeVarint(Uint8List buf, int? p_offset) {
 
 /// Encode a digest with multihash
 Uint8List encode(String hashType, Uint8List digest, int? length) {
-  HashInfo hashInfo = _coerceCode(hashType);
+  HashFunctionConvention hashInfo = _coerceCode(hashType);
 
   length ??= digest.length;
   if (length != digest.length) {
@@ -86,7 +88,7 @@ Uint8List encode(String hashType, Uint8List digest, int? length) {
 }
 
 /// Decodes an array of bytes into a multihash object
-Multihash decode(Uint8List bytes) {
+MultihashInfo decode(Uint8List bytes) {
   if (bytes.length < 3) {
     throw Exception('Multihash must be greater than 3 bytes.');
   }
@@ -94,8 +96,7 @@ Multihash decode(Uint8List bytes) {
   // Decode code
   var decodedCode = _decodeVarint(bytes, null);
   if (!supportedHashCodes.contains(decodedCode.res)) {
-    throw Exception(
-        'Multihash unknown function code: 0x${decodedCode.res.toRadixString(16)}');
+    throw Exception('Multihash unknown function code: 0x${decodedCode.res.toRadixString(16)}');
   }
 
   bytes = bytes.sublist(decodedCode.byteLength);
@@ -112,12 +113,7 @@ Multihash decode(Uint8List bytes) {
     throw Exception('Multihash inconsistent length');
   }
 
-  String hashName =
-      hashTable.firstWhere((obj) => obj.code == decodedCode.res).hashName;
+  String hashName = hashTable.firstWhere((obj) => obj.code == decodedCode.res).hashFunctionName;
 
-  return Multihash(
-      code: decodedCode.res,
-      length: decodedLen.res,
-      hashName: hashName,
-      digest: bytes);
+  return MultihashInfo(code: decodedCode.res, length: decodedLen.res, hashFunctionName: hashName, digest: bytes);
 }
