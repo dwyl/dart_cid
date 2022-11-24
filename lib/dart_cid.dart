@@ -7,6 +7,8 @@ import 'package:buffer/buffer.dart';
 import 'package:dart_cid/constants.dart';
 import 'package:flutter/foundation.dart';
 
+// using Uint8List because https://stackoverflow.com/questions/69090275/uint8list-vs-listint-what-is-the-difference/69091484#69091484
+
 HashInfo _coerceCode(String hashFunction) {
   if (!supportedHashFunctions.contains(hashFunction)) {
     throw Exception('Unsupported hash.');
@@ -89,6 +91,7 @@ Multihash decode(Uint8List bytes) {
     throw Exception('Multihash must be greater than 3 bytes.');
   }
 
+  // Decode code
   var decodedCode = _decodeVarint(bytes, null);
   if (!supportedHashCodes.contains(decodedCode.res)) {
     throw Exception(
@@ -97,13 +100,15 @@ Multihash decode(Uint8List bytes) {
 
   bytes = bytes.sublist(decodedCode.byteLength);
 
+  // Decode length
   final decodedLen = _decodeVarint(bytes, null);
   if (decodedLen.res < 0) {
     throw Exception('Multihash invalid length: ${decodedLen.res}');
   }
 
+  // Get digest
   bytes = bytes.sublist(decodedLen.byteLength);
-  if (bytes.length != decodedLen.byteLength) {
+  if (bytes.length != decodedLen.res) {
     throw Exception('Multihash inconsistent length');
   }
 

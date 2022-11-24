@@ -10,7 +10,7 @@ class HashInfo {
 }
 
 class Multihash extends HashInfo {
-  final Uint8List digest;
+  final List<int> digest;
 
   const Multihash(
       {required code, required length, required hashName, required this.digest})
