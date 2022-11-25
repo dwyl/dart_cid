@@ -3,18 +3,16 @@ library dart_cid;
 import 'dart:io';
 
 import 'package:dart_cid/src/constants.dart';
-import 'package:dart_cid/varintUtils.dart';
+import 'package:dart_cid/src/varintUtils.dart';
 import 'package:flutter/foundation.dart';
 
 import 'src/models.dart';
 
-
 /// Encodes a digest with a passed hash function type.
 Uint8List encode(String hashType, Uint8List digest, int? length) {
-
-  // Checking if hash function type is supported 
+  // Checking if hash function type is supported
   if (!supportedHashFunctions.contains(hashType)) {
-      throw Exception('Unsupported hash function type.');
+    throw Exception('Unsupported hash function type.');
   }
 
   // Function convention info
@@ -37,7 +35,6 @@ Uint8List encode(String hashType, Uint8List digest, int? length) {
 
 /// Decodes an array of bytes into a multihash object.
 MultihashInfo decode(Uint8List bytes) {
-
   // Check if the array of bytes is long enough (has to have hash function type, length of digest and digest)
   if (bytes.length < 3) {
     throw Exception('Multihash must be greater than 3 bytes.');
@@ -49,7 +46,7 @@ MultihashInfo decode(Uint8List bytes) {
     throw Exception('Multihash unknown function code: 0x${decodedCode.res.toRadixString(16)}');
   }
 
-  bytes = bytes.sublist(decodedCode.byteLength);
+  bytes = bytes.sublist(decodedCode.numBytesRead);
 
   // Decode length of digest
   final decodedLen = decodeVarint(bytes, null);
@@ -58,7 +55,7 @@ MultihashInfo decode(Uint8List bytes) {
   }
 
   // Get digest
-  bytes = bytes.sublist(decodedLen.byteLength);
+  bytes = bytes.sublist(decodedLen.numBytesRead);
   if (bytes.length != decodedLen.res) {
     throw Exception('Multihash inconsistent length');
   }
