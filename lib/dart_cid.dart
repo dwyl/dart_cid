@@ -1,108 +1,58 @@
 library dart_cid;
 
 import 'dart:io';
-import 'dart:math';
 
-import 'package:buffer/buffer.dart';
-import 'package:dart_cid/constants.dart';
+import 'package:dart_cid/src/constants.dart';
+import 'package:dart_cid/varintUtils.dart';
 import 'package:flutter/foundation.dart';
 
-import 'models.dart';
+import 'src/models.dart';
 
-// using Uint8List because https://stackoverflow.com/questions/69090275/uint8list-vs-listint-what-is-the-difference/69091484#69091484
 
-HashFunctionConvention _coerceCode(String hashFunction) {
-  if (!supportedHashFunctions.contains(hashFunction)) {
-    throw Exception('Unsupported hash.');
+/// Encodes a digest with a passed hash function type.
+Uint8List encode(String hashType, Uint8List digest, int? length) {
+
+  // Checking if hash function type is supported 
+  if (!supportedHashFunctions.contains(hashType)) {
+      throw Exception('Unsupported hash function type.');
   }
 
-  return hashTable.firstWhere((obj) => obj.hashFunctionName == hashFunction);
-}
+  // Function convention info
+  HashFunctionConvention hashInfo = hashTable.firstWhere((obj) => obj.hashFunctionName == hashType);
 
-// Converts an int value to a varint (in Dart this is expressed as Uint8List - an array of bytes)
-// This is an implementation of varint (changed for unsigned ints) -> https://github.com/fmoo/python-varint/blob/master/varint.py
-// https://pub.dev/documentation/viz_transaction/latest/viz_transaction/BinaryUtils/transformInt16ToBytes.html
-Uint8List _encodeVarint(int value) {
-  ByteDataWriter writer = ByteDataWriter();
-
-  do {
-    int temp = value & 0x7F; //0x7F = 01111111
-
-    value = (value >> 7) & 0x01FFFFFFFFFFFFFF; // unsigned bit-right shift
-
-    if (value != 0) {
-      temp |= 0x80;
-    }
-
-    writer.writeUint8(temp.toInt());
-  } while (value != 0);
-
-  return writer.toBytes();
-}
-
-//TODO might be relevant to change the encoding as well *remove the unsigned part?)
-/// Decodes the first from the beggining of the buffer.
-/// Adapted from https://github.com/multiformats/js-multihash
-DecodedVarInt _decodeVarint(Uint8List buf, int? p_offset) {
-  var res = 0;
-  int offset = p_offset ?? 0;
-  int shift = 0;
-  int counter = offset;
-  int b;
-  int l = buf.length;
-  int bytes_read_ctr = 0;
-
-  do {
-    if (counter >= l || shift > 49) {
-      throw RangeError('Could not decode varint');
-    }
-    b = buf[counter++];
-    if (shift < 28) {
-      res += (b & 0x7F) << shift;
-    } else {
-      res += (b & 0x7F) * pow(2, shift).toInt();
-    }
-    shift += 7;
-  } while (b >= 0x80);
-
-  bytes_read_ctr = counter - offset;
-
-  return DecodedVarInt(res: res, byteLength: bytes_read_ctr);
-}
-
-/// Encode a digest with multihash
-Uint8List encode(String hashType, Uint8List digest, int? length) {
-  HashFunctionConvention hashInfo = _coerceCode(hashType);
-
+  // Check if length of digest is correctly defined.
   length ??= digest.length;
   if (length != digest.length) {
     throw Exception('Digest length has to be equal to the specified length.');
   }
 
+  // Building the array of bytes with hash function type, length of digest and digest encoded.
   var b = BytesBuilder();
-  b.add(_encodeVarint(hashInfo.code));
-  b.add(_encodeVarint(length));
+  b.add(encodeVarint(hashInfo.code));
+  b.add(encodeVarint(length));
   b.add(digest);
 
   return b.toBytes();
 }
 
-/// Decodes an array of bytes into a multihash object
+/// Decodes an array of bytes into a multihash object.
 MultihashInfo decode(Uint8List bytes) {
+
+  // Check if the array of bytes is long enough (has to have hash function type, length of digest and digest)
   if (bytes.length < 3) {
     throw Exception('Multihash must be greater than 3 bytes.');
   }
 
-  // Decode code
-  var decodedCode = _decodeVarint(bytes, null);
+  // Decode code of hash function type
+  var decodedCode = decodeVarint(bytes, null);
   if (!supportedHashCodes.contains(decodedCode.res)) {
     throw Exception('Multihash unknown function code: 0x${decodedCode.res.toRadixString(16)}');
   }
 
   bytes = bytes.sublist(decodedCode.byteLength);
 
-  // Decode length
-  final decodedLen = _decodeVarint(bytes, null);
+  // Decode length of digest
+  final decodedLen = decodeVarint(bytes, null);
   if (decodedLen.res < 0) {
     throw Exception('Multihash invalid length: ${decodedLen.res}');
   }
@@ -113,6 +63,7 @@ MultihashInfo decode(Uint8List bytes) {
     throw Exception('Multihash inconsistent length');
   }
 
+  // Fetch name of hash function type referring to the code
   String hashName = hashTable.firstWhere((obj) => obj.code == decodedCode.res).hashFunctionName;
 
   return MultihashInfo(code: decodedCode.res, length: decodedLen.res, hashFunctionName: hashName, digest: bytes);
