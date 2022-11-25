@@ -1,12 +1,13 @@
-library dart_cid;
+library dart_multihash;
 
 import 'dart:io';
-
-import 'package:dart_cid/src/constants.dart';
-import 'package:dart_cid/src/varintUtils.dart';
 import 'package:flutter/foundation.dart';
 
+import '/src/constants.dart';
+import '/src/varintUtils.dart';
 import 'src/models.dart';
+
+export 'dart_multihash.dart' show encode, decode;
 
 /// Encodes a digest with a passed hash function type.
 Uint8List encode(String hashType, Uint8List digest, int? length) {
@@ -35,6 +36,7 @@ Uint8List encode(String hashType, Uint8List digest, int? length) {
 
 /// Decodes an array of bytes into a multihash object.
 MultihashInfo decode(Uint8List bytes) {
+  
   // Check if the array of bytes is long enough (has to have hash function type, length of digest and digest)
   if (bytes.length < 3) {
     throw Exception('Multihash must be greater than 3 bytes.');
@@ -65,3 +67,4 @@ MultihashInfo decode(Uint8List bytes) {
 
   return MultihashInfo(code: decodedCode.res, length: decodedLen.res, hashFunctionName: hashName, digest: bytes);
 }
+

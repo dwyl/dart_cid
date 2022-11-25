@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:collection/collection.dart';
 
-import 'package:dart_cid/dart_cid.dart';
+import 'package:dart_cid/dart_multihash.dart';
 
 void main() {
   test('check encode and decode', () {
