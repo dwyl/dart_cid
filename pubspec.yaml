@@ -11,6 +11,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # To remove after multihash is a package on its own
+  buffer: ^1.1.1
+  crypto: ^3.0.2
+  base32: 2.1.3
+  bs58: 1.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
