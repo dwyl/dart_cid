@@ -11,7 +11,7 @@ export 'dart_multihash.dart' show encode, decode;
 
 class Multihash {
   /// Encodes a digest with a passed hash function type.
-  Uint8List encode(String hashType, Uint8List digest, int? length) {
+  static Uint8List encode(String hashType, Uint8List digest, {int? length}) {
     // Checking if hash function type is supported
     if (!supportedHashFunctions.contains(hashType)) {
       throw UnsupportedError('Unsupported hash function type.');
@@ -36,7 +36,7 @@ class Multihash {
   }
 
   /// Decodes an array of bytes into a multihash object.
-  MultihashInfo decode(Uint8List bytes) {
+  static MultihashInfo decode(Uint8List bytes) {
     // Check if the array of bytes is long enough (has to have hash function type, length of digest and digest)
     if (bytes.length < 3) {
       throw RangeError('Multihash must be greater than 3 bytes.');

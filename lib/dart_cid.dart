@@ -3,6 +3,7 @@ library dart_cid;
 import 'dart:ffi';
 import 'dart:typed_data';
 
+import 'package:base32/encodings.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 
@@ -23,12 +24,8 @@ String createCid(String text, BASE base) {
 
   if (base == BASE.base32) {
     return _base32Encode(suffixedMultihash);
-  } 
-  else if (base == BASE.base58) {
+  } else {
     return _base58Encode(suffixedMultihash);
-  } 
-  else {
-    throw UnsupportedError('Only \'base32\' and \'base58\' are supported.');
   }
 }
 
@@ -62,7 +59,7 @@ Uint8List _createMultihash(String text) {
   Uint8List digest = Uint8List.fromList(digestObj.bytes);
 
   // Multihashes the hashed string with the `sha2-256` multiformat code.
-  Uint8List multihash = Multihash().encode("sha2-256", digest, null);
+  Uint8List multihash = Multihash.encode("sha2-256", digest);
 
   return multihash;
 }
@@ -78,11 +75,13 @@ String _base58Encode(Uint8List suffixedMultihash) {
 }
 
 /// Base32 encodes the given [suffixedMultihash].
-/// It appends the 'b' character to the string, according to the
+/// It appends the 'B' character to the string, according to the
 /// [`multibase` table](https://github.com/multiformats/multibase#multibase-table)
+/// It uses the `standardRFC4648` uppercase version which is **case-insensitive** and **has no padding**.
 String _base32Encode(Uint8List suffixedMultihash) {
-  String encodedHash = base32.encode(suffixedMultihash);
+  String encodedHash = base32.encode(suffixedMultihash, encoding: Encoding.standardRFC4648);
+  String padlessEncodedHash = encodedHash.replaceAll("=", "");
 
   // Suffixing the encoded hash with 'z'
-  return "b$encodedHash";
+  return "B$padlessEncodedHash";
 }
