@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:dart_cid/dart_cid.dart';
 
 void main() {
-  test('test creating cid with \'hello world \' with base58 encoding', () {
+  test('creating cid with \'hello world \' with base58 encoding', () {
     String input = 'hello world';
     final output = createCid(input, BASE.base58);
 
@@ -11,11 +11,31 @@ void main() {
     expect(output == "zb2rhj7crUKTQYRGCRATFaQ6YFLTde2YzdqbbhAASkL9uRDXn", true);
   });
 
-  test('test creating cid with \'hello world \' with base32 encoding', () {
+  test('creating cid with \'hello world \' with base32 encoding', () {
     String input = 'hello world';
     final output = createCid(input, BASE.base32);
 
     // https://cid.ipfs.tech/#BAFKREIFZJUT3TE2NHYEKKLSS27NH3K72YSCO7Y32KOAO5EEI66WOF36N5E
     expect(output == "BAFKREIFZJUT3TE2NHYEKKLSS27NH3K72YSCO7Y32KOAO5EEI66WOF36N5E", true);
+  });
+
+  test('different cids when input value is different', () {
+    String input1 = 'divinity';
+    String input2 = 'something comforting';
+    final output1 = createCid(input1, BASE.base32);
+    final output2 = createCid(input2, BASE.base32);
+
+    expect(output1 == output2, false);
+  });
+
+  test('empty values should yield results', () {
+    String input = '';
+    final output1 = createCid(input, BASE.base32);
+    final output2 = createCid(input, BASE.base58);
+
+    expect(output1, isNotEmpty);
+    expect(output1 == 'BAFKREIHDWDCEFGH4DQKJV67UZCMW7OJEE6XEDZDETOJUZJEVTENXQUVYKU', true);
+    expect(output2, isNotEmpty);
+    expect(output2 == 'zb2rhmy65F3REf8SZp7De11gxtECBGgUKaLdiDj7MCGCHxbDW', true);
   });
 }
