@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:random_string_generator/random_string_generator.dart';
 import 'dart:io';
 
 import 'package:test_process/test_process.dart';
@@ -45,29 +46,68 @@ void main() {
   });
 
   group("Property-based tests from IPFS", () {
-    test('compare cid with IPFS-created cid', () async {
-      // Creates file to test with IPFS
-      String fileName = "testfile.txt";
-      var myFile = await File(fileName).create();
+    String fileName = "testfile.txt"; // name of the file to test with `ipfs add`
+    int iterations = 1; // small number of iterations because a process can hang
 
-      // Adds content to file
-      var value = "hello world";
-      myFile.writeAsString(value);
+    test('compare cid with IPFS-created cid X times (according to `iterations`)', () async {
+      
+      // Creating a 30-sized list of random strings
+      RandomStringGenerator generator = RandomStringGenerator(
+        fixedLength: 10,
+      );
 
-      // Run `ipfs add file.txt -n --cid-version=1
-      TestProcess process = await TestProcess.start('ipfs', ['add', fileName, "-n", "--cid-version=1"]);
-      String processStdout = await process.stdoutStream().first; // get first line of stdout
-      final regex = RegExp(r'^added(.*) (.*)$');
-      final match = regex.firstMatch(processStdout);
+      List<String> randomStrings = List<String>.filled(iterations, '').map((e) => generator.generate()).toList();
 
-      // Cid returned from running the command
-      final ipfsCid = match?.group(1)?.trim();
-      final packageCid = createCid(value, BASE.base32);
+      // Run test 30 times
+      for (var inputString in randomStrings) {
+        var ret = await comparedPackageWithIPFSCid(inputString, fileName);
+        expect(ret.ipfsCid == ret.packageCid.toLowerCase(), true);
+      }
+    }, tags: "ipfs");
 
-      // Cleanup and assertions
-      await process.shouldExit(0);
-      myFile.delete();
-      expect(ipfsCid == packageCid.toLowerCase(), true);
+    // Delete file after all tests are run, in case it exists
+    tearDownAll(() async {
+      final file = File(fileName);
+      final fileExists = await file.exists();
+      if (fileExists) {
+        file.delete();
+      }
     });
   });
+}
+
+class CidComparison {
+  final String packageCid;
+  final String? ipfsCid;
+
+  const CidComparison({required this.packageCid, required this.ipfsCid});
+}
+
+/// Creates a file with a given [inputString]
+/// and runs `ipfs add [fileName] -n --cid-version=1`
+/// which yields a cid created for the file.
+///
+/// This function compares the cid returned from IPFS
+/// with the one generated from the package.
+Future<CidComparison> comparedPackageWithIPFSCid(String inputString, String fileName) async {
+  var myFile = await File(fileName).create();
+
+  // Adds content to file
+  myFile.writeAsString(inputString);
+
+  // Run `ipfs add file.txt -n --cid-version=1
+  TestProcess process = await TestProcess.start('ipfs', ['add', fileName, "-n", "--cid-version=1"]);
+  String processStdout = await process.stdoutStream().first; // get first line of stdout
+  final regex = RegExp(r'^added(.*) (.*)$');
+  final match = regex.firstMatch(processStdout);
+
+  // Cid returned from running the command
+  final ipfsCid = match?.group(1)?.trim();
+  final packageCid = createCid(inputString, BASE.base32);
+
+  // Cleanup
+  await process.kill();
+  myFile.delete();
+
+  return CidComparison(ipfsCid: ipfsCid, packageCid: packageCid);
 }
