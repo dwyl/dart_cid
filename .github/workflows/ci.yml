@@ -33,8 +33,10 @@ jobs:
       # Your project will need to have tests in test/ and a dependency on
       # package:test for this step to succeed. Note that Flutter projects will
       # want to change this to 'flutter test'.
+      #
+      # Running unit tests as property-based tests hang on Github Actions.
       - name: Run tests
-        run: flutter test --coverage
+        run: flutter test --tags "unit" --coverage
 
       - uses: codecov/codecov-action@v2
         with:

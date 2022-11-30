@@ -14,7 +14,7 @@ void main() {
 
       // https://cid.ipfs.tech/#zb2rhj7crUKTQYRGCRATFaQ6YFLTde2YzdqbbhAASkL9uRDXn
       expect(output == "zb2rhj7crUKTQYRGCRATFaQ6YFLTde2YzdqbbhAASkL9uRDXn", true);
-    });
+    }, tags: "unit");
 
     test('creating cid with \'hello world \' with base32 encoding', () {
       String input = 'hello world';
@@ -22,7 +22,7 @@ void main() {
 
       // https://cid.ipfs.tech/#BAFKREIFZJUT3TE2NHYEKKLSS27NH3K72YSCO7Y32KOAO5EEI66WOF36N5E
       expect(output == "BAFKREIFZJUT3TE2NHYEKKLSS27NH3K72YSCO7Y32KOAO5EEI66WOF36N5E", true);
-    });
+    }, tags: "unit");
 
     test('different cids when input value is different', () {
       String input1 = 'divinity';
@@ -31,7 +31,7 @@ void main() {
       final output2 = Cid.createCid(input2, BASE.base32);
 
       expect(output1 == output2, false);
-    });
+    }, tags: "unit");
 
     test('empty values should yield results', () {
       String input = '';
@@ -42,7 +42,7 @@ void main() {
       expect(output1 == 'BAFKREIHDWDCEFGH4DQKJV67UZCMW7OJEE6XEDZDETOJUZJEVTENXQUVYKU', true);
       expect(output2, isNotEmpty);
       expect(output2 == 'zb2rhmy65F3REf8SZp7De11gxtECBGgUKaLdiDj7MCGCHxbDW', true);
-    });
+    }, tags: "unit");
   });
 
   group("Property-based tests from IPFS", () {
