@@ -7,11 +7,9 @@ import 'package:base32/encodings.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 
-import 'package:dart_cid/multihash/dart_multihash.dart';
-import 'package:flutter/foundation.dart';
-
 import 'package:base32/base32.dart';
 import 'package:bs58/bs58.dart';
+import 'package:dart_multihash/dart_multihash.dart';
 
 enum BASE { base32, base58 }
 
