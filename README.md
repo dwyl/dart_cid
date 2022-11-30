@@ -72,7 +72,7 @@ or `base52` to encode the input string.
 import 'package:dart_cid/dart_cid.dart';
 
 String input = 'hello world';
-final output = createCid(input, BASE.base58);
+final output = Cid.createCid(input, BASE.base58);
 ```
 
 and you're done! :tada:
