@@ -1,0 +1,23 @@
+name: dart_cid
+description: A dart-lang implementation for creating self-describing content-addressed identifiers for distributed systems (CIDs).
+version: 0.0.1
+homepage: https://github.com/dwyl/dart_cid
+repository: https://github.com/dwyl/dart_cid
+issue_tracker: https://github.com/dwyl/dart_cid/issues
+
+
+environment:
+  sdk: '>=2.18.4 <3.0.0'
+
+dependencies:
+  buffer: ^1.1.1
+  crypto: ^3.0.2
+  base32: ^2.1.3
+  bs58: ^1.0.2
+  dart_multihash: ^0.0.1
+
+dev_dependencies:
+  test: ^1.16.0
+  lints: ^2.0.0
+  test_process: ^2.0.3
+  random_string_generator: ^2.0.0
