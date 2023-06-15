@@ -51,14 +51,14 @@ void main() {
 
     test('compare cid with IPFS-created cid X times (according to `iterations`)', () async {
       
-      // Creating a 30-sized list of random strings
+      // Creating a 10-sized list of random strings
       RandomStringGenerator generator = RandomStringGenerator(
         fixedLength: 10,
       );
 
       List<String> randomStrings = List<String>.filled(iterations, '').map((e) => generator.generate()).toList();
 
-      // Run test 30 times
+      // Run test X iterations
       for (var inputString in randomStrings) {
         var ret = await comparedPackageWithIPFSCid(inputString, fileName);
         expect(ret.ipfsCid == ret.packageCid.toLowerCase(), true);

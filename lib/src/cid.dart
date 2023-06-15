@@ -7,6 +7,7 @@ import 'dart:convert';
 
 import 'package:base32/base32.dart';
 import 'package:bs58/bs58.dart';
+import 'package:dart_cid/src/validate_cid.dart';
 import 'package:dart_multihash/dart_multihash.dart';
 
 enum BASE { base32, base58 }
@@ -25,6 +26,11 @@ class Cid {
     } else {
       return _base58Encode(suffixedMultihash);
     }
+  }
+
+
+  static CID decodeCid(String input) {
+    return decodeCid(input);
   }
 }
 
