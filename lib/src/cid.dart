@@ -29,8 +29,8 @@ class Cid {
   }
 
 
-  static CID decodeCid(String input) {
-    return decodeCid(input);
+  static CID? decodeCid(String input) {
+    return decodeCIDStringInformation(input);
   }
 }
 

@@ -17,7 +17,7 @@ dependencies:
   dart_multihash: ^0.0.1
 
 dev_dependencies:
-  test: ^1.16.0
+  test: ^1.24.0
   lints: ^2.0.0
   test_process: ^2.0.3
   random_string_generator: ^2.0.0

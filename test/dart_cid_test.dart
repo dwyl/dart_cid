@@ -1,10 +1,9 @@
-import 'package:random_string_generator/random_string_generator.dart';
-import 'package:test/test.dart';
 import 'dart:io';
 
-import 'package:test_process/test_process.dart';
-
 import 'package:dart_cid/src/cid.dart';
+import 'package:random_string_generator/random_string_generator.dart';
+import 'package:test/test.dart';
+import 'package:test_process/test_process.dart';
 
 void main() {
   group("Regular tests", () {
@@ -43,6 +42,21 @@ void main() {
       expect(output2, isNotEmpty);
       expect(output2 == 'zb2rhmy65F3REf8SZp7De11gxtECBGgUKaLdiDj7MCGCHxbDW', true);
     }, tags: "unit");
+
+    test('decoding a CIDv0', () {
+      // This is the code from https://docs.ipfs.tech/concepts/content-addressing/#cid-conversion.
+      // See the inspector of this code in https://cid.ipfs.tech/#QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n.
+      String input = 'QmRKs2ZfuwvmZA3QAWmCqrGUjV9pxtBUDP3wuc6iVGnjA2';
+      final output = Cid.decodeCid(input);
+
+      if (output != null) {
+        expect(output.version, 0);
+        expect(output.multicodec, "dag-pb");
+        expect(output.multihash.lengthInBytes, 34);
+        expect(output.multihash[0], 0x12); // 0x12 code of multihash. Check the inspector link above.
+        expect(output.multihash[1], 0x20); // code of the encoding algo. Check the inspector link above.
+      }
+    }, tags: "unit");
   });
 
   group("Property-based tests from IPFS", () {
@@ -50,7 +64,6 @@ void main() {
     int iterations = 1; // small number of iterations because a process can hang
 
     test('compare cid with IPFS-created cid X times (according to `iterations`)', () async {
-      
       // Creating a 10-sized list of random strings
       RandomStringGenerator generator = RandomStringGenerator(
         fixedLength: 10,
