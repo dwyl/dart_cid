@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:base32/base32.dart';
 import 'package:bs58/bs58.dart';
 import 'package:dart_multihash/dart_multihash.dart';
+import 'package:multibase/multibase.dart';
 
 class CID {
   final Uint8List multihash;
@@ -26,7 +27,17 @@ CID? decodeCIDStringInformation(String input) {
     return step2(decodedInput);
   }
 
-  return null;
+  // Otherwise, decode it according to the multibase spec
+  else {
+    Uint8List decodedArray = multibaseDecode(input);
+
+    // If the first decoded byte is 0x12, return an error.
+    if (decodedArray.first == 0x12) {
+      throw Exception("CIDv0 CIDs may not be multibase encoded and there will be no CIDv18 (0x12 = 18) to prevent ambiguity with decoded CIDv0s");
+    } else {
+      return step2(decodedArray);
+    }
+  }
 }
 
 /// Refers to the `step2` of https://github.com/multiformats/cid/blob/ef1b2002394b15b1e6c26c30545fd485f2c4c138/README.md#decoding-algorithm
