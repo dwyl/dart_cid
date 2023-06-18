@@ -22,7 +22,7 @@ class CID {
 /// It follows the official algorithm in https://github.com/multiformats/cid/blob/ef1b2002394b15b1e6c26c30545fd485f2c4c138/README.md#decoding-algorithm.
 CID? decodeCIDStringInformation(String input) {
   // Check if string is 46 characters long and if starts with "Qm"
-  if (input.length != 46 || input.substring(0, 2) == "Qm") {
+  if (input.length != 46 && input.substring(0, 2) == "Qm") {
     Uint8List decodedInput = base58.decode(input);
     return step2(decodedInput);
   }
