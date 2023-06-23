@@ -7,13 +7,13 @@ import 'dart:convert';
 
 import 'package:base32/base32.dart';
 import 'package:bs58/bs58.dart';
-import 'package:dart_cid/src/validate_cid.dart';
+import 'package:dart_cid/src/decode_cid.dart';
 import 'package:dart_multihash/dart_multihash.dart';
 
 enum BASE { base32, base58 }
 
 /// Class that contains the functions to create a `cid`.
-class Cid {
+class CID {
   /// Creates a [`cid`](https://docs.ipfs.tech/concepts/content-addressing/#what-is-a-cid) v1
   /// that is compliant with IPFS standards
   /// The returned `cid` consists of a `sha2-256` multihash, a `raw` multicodec and base encoded either 32 or 58.

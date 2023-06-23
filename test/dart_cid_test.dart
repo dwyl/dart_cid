@@ -9,7 +9,7 @@ void main() {
   group("Regular tests", () {
     test('creating cid with \'hello world \' with base58 encoding', () {
       String input = 'hello world';
-      final output = Cid.createCid(input, BASE.base58);
+      final output = CID.createCid(input, BASE.base58);
 
       // https://cid.ipfs.tech/#zb2rhj7crUKTQYRGCRATFaQ6YFLTde2YzdqbbhAASkL9uRDXn
       expect(output == "zb2rhj7crUKTQYRGCRATFaQ6YFLTde2YzdqbbhAASkL9uRDXn", true);
@@ -17,7 +17,7 @@ void main() {
 
     test('creating cid with \'hello world \' with base32 encoding', () {
       String input = 'hello world';
-      final output = Cid.createCid(input, BASE.base32);
+      final output = CID.createCid(input, BASE.base32);
 
       // https://cid.ipfs.tech/#BAFKREIFZJUT3TE2NHYEKKLSS27NH3K72YSCO7Y32KOAO5EEI66WOF36N5E
       expect(output == "BAFKREIFZJUT3TE2NHYEKKLSS27NH3K72YSCO7Y32KOAO5EEI66WOF36N5E", true);
@@ -26,16 +26,16 @@ void main() {
     test('different cids when input value is different', () {
       String input1 = 'divinity';
       String input2 = 'something comforting';
-      final output1 = Cid.createCid(input1, BASE.base32);
-      final output2 = Cid.createCid(input2, BASE.base32);
+      final output1 = CID.createCid(input1, BASE.base32);
+      final output2 = CID.createCid(input2, BASE.base32);
 
       expect(output1 == output2, false);
     }, tags: "unit");
 
     test('empty values should yield results', () {
       String input = '';
-      final output1 = Cid.createCid(input, BASE.base32);
-      final output2 = Cid.createCid(input, BASE.base58);
+      final output1 = CID.createCid(input, BASE.base32);
+      final output2 = CID.createCid(input, BASE.base58);
 
       expect(output1, isNotEmpty);
       expect(output1 == 'BAFKREIHDWDCEFGH4DQKJV67UZCMW7OJEE6XEDZDETOJUZJEVTENXQUVYKU', true);
@@ -47,11 +47,11 @@ void main() {
       // This is the code from https://docs.ipfs.tech/concepts/content-addressing/#cid-conversion.
       // See the inspector of this code in https://cid.ipfs.tech/#QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n.
       String input = 'QmRKs2ZfuwvmZA3QAWmCqrGUjV9pxtBUDP3wuc6iVGnjA2';
-      final output = Cid.decodeCid(input);
+      final output = CID.decodeCid(input);
 
       expect(output.multihashCode, 0x12);
       expect(output.multihashName, "sha2-256");
-      expect(output.multihashSize, 256/8);  // size in bytes
+      expect(output.multihashSize, 256 / 8); // size in bytes
       expect(output.multicodecName, "dag-pb");
       expect(output.multicodecCode, 0x70);
       expect(output.multibase, "base58btc");
@@ -61,14 +61,30 @@ void main() {
     test('decoding a CIDv1', () {
       // See the inspector of this code in https://cid.ipfs.tech/#bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi.
       String input = 'bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi';
-      final output = Cid.decodeCid(input);
+      final output = CID.decodeCid(input);
 
       expect(output.multihashCode, 0x12);
       expect(output.multihashName, "sha2-256");
-      expect(output.multihashSize, 256/8);  // size in bytes
+      expect(output.multihashSize, 256 / 8); // size in bytes
       expect(output.multicodecName, "dag-pb");
       expect(output.multicodecCode, 0x70);
       expect(output.multibase, "base32");
+      expect(output.version, 1);
+    }, tags: "unit");
+  });
+
+  group("Decoding different CIDs:", () {
+    test('raw binary, base58btc', () {
+      // See the inspector of this code in https://cid.ipfs.tech/#zb2rhe5P4gXftAwvA4eXQ5HJwsER2owDyS9sKaQRRVQPn93bs.
+      String input = 'zb2rhe5P4gXftAwvA4eXQ5HJwsER2owDyS9sKaQRRVQPn93bs';
+      final output = CID.decodeCid(input);
+
+      expect(output.multihashCode, 0x12);
+      expect(output.multihashName, "sha2-256");
+      expect(output.multihashSize, 256 / 8); // size in bytes
+      expect(output.multicodecName, "raw");
+      expect(output.multicodecCode, 0x55);
+      expect(output.multibase, "base58btc");
       expect(output.version, 1);
     }, tags: "unit");
   });
@@ -130,7 +146,7 @@ Future<CidComparison> comparedPackageWithIPFSCid(String inputString, String file
 
   // Cid returned from running the command
   final ipfsCid = match?.group(1)?.trim();
-  final packageCid = Cid.createCid(inputString, BASE.base32);
+  final packageCid = CID.createCid(inputString, BASE.base32);
 
   // Cleanup
   await process.kill();
