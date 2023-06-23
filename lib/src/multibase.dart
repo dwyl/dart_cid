@@ -38,7 +38,8 @@ enum Multibase {
     required final String code,
     required final String name,
     final String padding = '',
-  }) : baseCode = code, baseName = name;
+  })  : baseCode = code,
+        baseName = name;
 
   final String baseCode;
   final String baseName;
@@ -52,6 +53,63 @@ Multibase getMultibaseFromCode(final String code) {
     }
   }
   throw Exception('Unknown base code: $code');
+}
+
+/// Encodes a given [suffixedMultihash] with a given multibase.
+/// The encoded is the multibase code + encoded hash.
+String encodeInputMultihashWithBase(final Multibase base, Uint8List suffixedMultihash) {
+  switch (base) {
+    case Multibase.base16:
+      {
+        String encodedHash = hex.encode(suffixedMultihash);
+        return base.baseCode + encodedHash;
+      }
+
+    case Multibase.base16upper:
+      {
+        String encodedHash = hex.encode(suffixedMultihash);
+        return base.baseCode + encodedHash.toUpperCase();
+      }
+
+    case Multibase.base32:
+      {
+        String encodedHash = base32Library.base32.encode(suffixedMultihash, encoding: Encoding.nonStandardRFC4648Lower);
+        String padlessEncodedHash = encodedHash.replaceAll("=", "");
+
+        return base.baseCode + padlessEncodedHash;
+      }
+
+    case Multibase.base32upper:
+      {
+        String encodedHash = base32Library.base32.encode(suffixedMultihash, encoding: Encoding.standardRFC4648);
+        String padlessEncodedHash = encodedHash.replaceAll("=", "");
+
+        return base.baseCode + padlessEncodedHash;
+      }
+
+    case Multibase.base58btc:
+      {
+        String encodedHash = base58.encode(suffixedMultihash);
+        return base.baseCode + encodedHash;
+      }
+
+    case Multibase.base64:
+      {
+        String encodedHash = base64Encode(suffixedMultihash);
+        return base.baseCode + encodedHash;
+      }
+
+    case Multibase.base64url:
+      {
+        String encodedHash = base64Encode(suffixedMultihash);
+        return base.baseCode + encodedHash;
+      }
+
+    default:
+      {
+        throw UnsupportedError('Multibase spec base type not supported.');
+      }
+  }
 }
 
 /// Decodes a given string with a given multibase.

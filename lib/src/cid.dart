@@ -8,24 +8,19 @@ import 'dart:convert';
 import 'package:base32/base32.dart';
 import 'package:bs58/bs58.dart';
 import 'package:dart_cid/src/decode_cid.dart';
+import 'package:dart_cid/src/multibase.dart';
 import 'package:dart_multihash/dart_multihash.dart';
-
-enum BASE { base32, base58 }
 
 /// Class that contains the functions to create a `cid`.
 class CID {
   /// Creates a [`cid`](https://docs.ipfs.tech/concepts/content-addressing/#what-is-a-cid) v1
   /// that is compliant with IPFS standards
   /// The returned `cid` consists of a `sha2-256` multihash, a `raw` multicodec and base encoded either 32 or 58.
-  static String createCid(String text, BASE base) {
+  static String createCid(String text, Multibase base) {
     Uint8List multihash = _createMultihash(text);
     Uint8List suffixedMultihash = _addSuffixToMultihash(multihash);
 
-    if (base == BASE.base32) {
-      return _base32Encode(suffixedMultihash);
-    } else {
-      return _base58Encode(suffixedMultihash);
-    }
+    return encodeInputMultihashWithBase(base, suffixedMultihash);
   }
 
   /// Decodes a given `cid` string
@@ -68,26 +63,4 @@ Uint8List _createMultihash(String text) {
   Uint8List multihash = Multihash.encode("sha2-256", digest);
 
   return multihash;
-}
-
-/// Base58 encodes the given [suffixedMultihash].
-/// It appends the 'z' character to the string, according to the
-/// [`multibase` table](https://github.com/multiformats/multibase#multibase-table)
-String _base58Encode(Uint8List suffixedMultihash) {
-  String encodedHash = base58.encode(suffixedMultihash);
-
-  // Suffixing the encoded hash with 'z'
-  return "z$encodedHash";
-}
-
-/// Base32 encodes the given [suffixedMultihash].
-/// It appends the 'B' character to the string, according to the
-/// [`multibase` table](https://github.com/multiformats/multibase#multibase-table)
-/// It uses the `standardRFC4648` uppercase version which is **case-insensitive** and **has no padding**.
-String _base32Encode(Uint8List suffixedMultihash) {
-  String encodedHash = base32.encode(suffixedMultihash, encoding: Encoding.standardRFC4648);
-  String padlessEncodedHash = encodedHash.replaceAll("=", "");
-
-  // Suffixing the encoded hash with 'z'
-  return "B$padlessEncodedHash";
 }

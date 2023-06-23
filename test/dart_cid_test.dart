@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dart_cid/src/cid.dart';
+import 'package:dart_cid/src/multibase.dart';
 import 'package:random_string_generator/random_string_generator.dart';
 import 'package:test/test.dart';
 import 'package:test_process/test_process.dart';
@@ -9,7 +10,7 @@ void main() {
   group("Regular tests", () {
     test('creating cid with \'hello world \' with base58 encoding', () {
       String input = 'hello world';
-      final output = CID.createCid(input, BASE.base58);
+      final output = CID.createCid(input, Multibase.base58btc);
 
       // https://cid.ipfs.tech/#zb2rhj7crUKTQYRGCRATFaQ6YFLTde2YzdqbbhAASkL9uRDXn
       expect(output == "zb2rhj7crUKTQYRGCRATFaQ6YFLTde2YzdqbbhAASkL9uRDXn", true);
@@ -17,7 +18,7 @@ void main() {
 
     test('creating cid with \'hello world \' with base32 encoding', () {
       String input = 'hello world';
-      final output = CID.createCid(input, BASE.base32);
+      final output = CID.createCid(input, Multibase.base32upper);
 
       // https://cid.ipfs.tech/#BAFKREIFZJUT3TE2NHYEKKLSS27NH3K72YSCO7Y32KOAO5EEI66WOF36N5E
       expect(output == "BAFKREIFZJUT3TE2NHYEKKLSS27NH3K72YSCO7Y32KOAO5EEI66WOF36N5E", true);
@@ -26,16 +27,16 @@ void main() {
     test('different cids when input value is different', () {
       String input1 = 'divinity';
       String input2 = 'something comforting';
-      final output1 = CID.createCid(input1, BASE.base32);
-      final output2 = CID.createCid(input2, BASE.base32);
+      final output1 = CID.createCid(input1, Multibase.base32);
+      final output2 = CID.createCid(input2, Multibase.base32);
 
       expect(output1 == output2, false);
     }, tags: "unit");
 
     test('empty values should yield results', () {
       String input = '';
-      final output1 = CID.createCid(input, BASE.base32);
-      final output2 = CID.createCid(input, BASE.base58);
+      final output1 = CID.createCid(input, Multibase.base32upper);
+      final output2 = CID.createCid(input, Multibase.base58btc);
 
       expect(output1, isNotEmpty);
       expect(output1 == 'BAFKREIHDWDCEFGH4DQKJV67UZCMW7OJEE6XEDZDETOJUZJEVTENXQUVYKU', true);
@@ -146,7 +147,7 @@ Future<CidComparison> comparedPackageWithIPFSCid(String inputString, String file
 
   // Cid returned from running the command
   final ipfsCid = match?.group(1)?.trim();
-  final packageCid = CID.createCid(inputString, BASE.base32);
+  final packageCid = CID.createCid(inputString, Multibase.base32);
 
   // Cleanup
   await process.kill();
