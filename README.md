@@ -65,14 +65,20 @@ flutter pub get
 ## Usage
 
 Now just call the `createCid()` function!
-Decide if you want to use `base32`
-or `base52` to encode the input string.
+You may decide what 
+[multibase](https://github.com/multiformats/multibase#multibase-table) 
+you want to use.
+This library *tries* to support the official/default bases.
+If you see one that's missing,
+do open 
+[an issue](https://github.com/dwyl/dart_cid/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc).
+
 
 ```dart
 import 'package:dart_cid/dart_cid.dart';
 
 String input = 'hello world';
-final output = Cid.createCid(input, BASE.base58);
+final output = Cid.createCid(input, Multibase.base58btc);
 ```
 
 and you're done! :tada:
@@ -114,13 +120,6 @@ which indicates the format of the target content.
 > check this link -> 
 > https://docs.ipfs.tech/concepts/content-addressing/#cid-versions
 
-Every `cid` generated with this 
-package will use the `raw` codec 
-and will be hashed using the `sha2-258`
-algorithm.
-You can choose if you want to
-encode with `base32` or `base58`, though.
-:smile:
 
 # I need help! ❓
 
