@@ -49,13 +49,27 @@ void main() {
       String input = 'QmRKs2ZfuwvmZA3QAWmCqrGUjV9pxtBUDP3wuc6iVGnjA2';
       final output = Cid.decodeCid(input);
 
-      if (output != null) {
-        expect(output.version, 0);
-        expect(output.multicodec, "dag-pb");
-        expect(output.multihash.lengthInBytes, 34);
-        expect(output.multihash[0], 0x12); // 0x12 code of multihash. Check the inspector link above.
-        expect(output.multihash[1], 0x20); // code of the encoding algo. Check the inspector link above.
-      }
+      expect(output.multihashCode, 0x12);
+      expect(output.multihashName, "sha2-256");
+      expect(output.multihashSize, 256/8);  // size in bytes
+      expect(output.multicodecName, "dag-pb");
+      expect(output.multicodecCode, 0x70);
+      expect(output.multibase, "base58btc");
+      expect(output.version, 0);
+    }, tags: "unit");
+
+    test('decoding a CIDv1', () {
+      // See the inspector of this code in https://cid.ipfs.tech/#bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi.
+      String input = 'bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi';
+      final output = Cid.decodeCid(input);
+
+      expect(output.multihashCode, 0x12);
+      expect(output.multihashName, "sha2-256");
+      expect(output.multihashSize, 256/8);  // size in bytes
+      expect(output.multicodecName, "dag-pb");
+      expect(output.multicodecCode, 0x70);
+      expect(output.multibase, "base32");
+      expect(output.version, 1);
     }, tags: "unit");
   });
 

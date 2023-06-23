@@ -28,8 +28,9 @@ class Cid {
     }
   }
 
-
-  static CID? decodeCid(String input) {
+  /// Decodes a given `cid` string
+  /// and returns its information.
+  static CIDInfo decodeCid(String input) {
     return decodeCIDStringInformation(input);
   }
 }
