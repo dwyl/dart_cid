@@ -25,19 +25,12 @@ enum Multibase {
   base58btc(code: 'z', name: "base58btc"),
 
   /// rfc4648 no padding
-  base64(code: 'm', name: "base64"),
-
-  /// rfc4648 no padding
-  base64url(code: 'u', name: "base64url"),
-
-  /// rfc4648 with padding
-  base64urlpad(code: 'U', name: "base64urlpad", padding: '=');
+  base64(code: 'm', name: "base64");
 
   /// Initialize a new multibase variant
   const Multibase({
     required final String code,
     required final String name,
-    final String padding = '',
   })  : baseCode = code,
         baseName = name;
 
@@ -98,17 +91,6 @@ String encodeInputMultihashWithBase(final Multibase base, Uint8List suffixedMult
         String encodedHash = base64Encode(suffixedMultihash);
         return base.baseCode + encodedHash;
       }
-
-    case Multibase.base64url:
-      {
-        String encodedHash = base64Encode(suffixedMultihash);
-        return base.baseCode + encodedHash;
-      }
-
-    default:
-      {
-        throw UnsupportedError('Multibase spec base type not supported.');
-      }
   }
 }
 
@@ -146,16 +128,6 @@ Uint8List decodeInputStringWithBase(final Multibase base, String input) {
     case Multibase.base64:
       {
         return base64Decode(sbstr);
-      }
-
-    case Multibase.base64url:
-      {
-        return base64Decode(sbstr);
-      }
-
-    default:
-      {
-        throw UnsupportedError('Multibase spec base type not supported.');
       }
   }
 }

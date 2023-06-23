@@ -55,7 +55,7 @@ Uint8List _addSuffixToMultihash(Uint8List multihash) {
 Uint8List _createMultihash(String text) {
   List<int> bytes = utf8.encode(text);
 
-  // Hash the input string with sha2-256 algorithm and  convert it to array of bytes
+  // Hash the input string with sha2-256 algorithm and convert it to array of bytes
   Digest digestObj = sha256.convert(bytes);
   Uint8List digest = Uint8List.fromList(digestObj.bytes);
 

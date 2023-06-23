@@ -84,6 +84,14 @@ final output = Cid.createCid(input, Multibase.base58btc);
 and you're done! :tada:
 You just created your own fancy `cid`!
 
+> **Note**
+>
+> Every `cid` generated with this 
+package will use the `raw` codec 
+and will be hashed using the `sha2-258`
+algorithm.
+You may be choose which base you want to encode it as, though.
+
 ## Considerations
 
 The previous code snippet 

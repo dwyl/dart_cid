@@ -74,7 +74,83 @@ void main() {
     }, tags: "unit");
   });
 
+  group("Encoding different CIDs:", () {
+    test('base16', () {
+      String input = 'hello world';
+      final output = CID.createCid(input, Multibase.base16);
+
+      // See the inspector of this code in https://cid.ipfs.tech/#f01551220b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9.
+      expect(output == "f01551220b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9", true);
+    }, tags: "unit");
+
+    test('base16upper', () {
+      String input = 'hello world';
+      final output = CID.createCid(input, Multibase.base16upper);
+
+      // See the inspector of this code in https://cid.ipfs.tech/#F01551220B94D27B9934D3E08A52E52D7DA7DABFAC484EFE37A5380EE9088F7ACE2EFCDE9.
+      expect(output == "F01551220B94D27B9934D3E08A52E52D7DA7DABFAC484EFE37A5380EE9088F7ACE2EFCDE9", true);
+    }, tags: "unit");
+
+    test('base32upper', () {
+      String input = 'hello world';
+      final output = CID.createCid(input, Multibase.base32upper);
+
+      // See the inspector of this code in https://cid.ipfs.tech/#BAFKREIFZJUT3TE2NHYEKKLSS27NH3K72YSCO7Y32KOAO5EEI66WOF36N5E.
+      expect(output == "BAFKREIFZJUT3TE2NHYEKKLSS27NH3K72YSCO7Y32KOAO5EEI66WOF36N5E", true);
+    }, tags: "unit");
+
+    test('base64', () {
+      String input = 'hello world';
+      final output = CID.createCid(input, Multibase.base64);
+
+      // See the inspector of this code in https://cid.ipfs.tech/#mAVUSILlNJ7mTTT4IpS5S19p9q/rEhO/jelOA7pCI96zi783p.
+      expect(output == "mAVUSILlNJ7mTTT4IpS5S19p9q/rEhO/jelOA7pCI96zi783p", true);
+    }, tags: "unit");
+  });
+
   group("Decoding different CIDs:", () {
+    test('raw binary, base16', () {
+      // See the inspector of this code in https://cid.ipfs.tech/#f01551220b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9.
+      String input = 'f01551220b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9';
+      final output = CID.decodeCid(input);
+
+      expect(output.multihashCode, 0x12);
+      expect(output.multihashName, "sha2-256");
+      expect(output.multihashSize, 256 / 8); // size in bytes
+      expect(output.multicodecName, "raw");
+      expect(output.multicodecCode, 0x55);
+      expect(output.multibase, "base16");
+      expect(output.version, 1);
+    }, tags: "unit");
+
+    test('raw binary, base16upper', () {
+      // See the inspector of this code in https://cid.ipfs.tech/#F01551220B94D27B9934D3E08A52E52D7DA7DABFAC484EFE37A5380EE9088F7ACE2EFCDE9.
+      String input = 'F01551220B94D27B9934D3E08A52E52D7DA7DABFAC484EFE37A5380EE9088F7ACE2EFCDE9';
+      final output = CID.decodeCid(input);
+
+      expect(output.multihashCode, 0x12);
+      expect(output.multihashName, "sha2-256");
+      expect(output.multihashSize, 256 / 8); // size in bytes
+      expect(output.multicodecName, "raw");
+      expect(output.multicodecCode, 0x55);
+      expect(output.multibase, "base16upper");
+      expect(output.version, 1);
+    }, tags: "unit");
+
+    test('raw binary, base32upper', () {
+      // See the inspector of this code in https://cid.ipfs.tech/#BAFKREIFZJUT3TE2NHYEKKLSS27NH3K72YSCO7Y32KOAO5EEI66WOF36N5E.
+      String input = 'BAFKREIFZJUT3TE2NHYEKKLSS27NH3K72YSCO7Y32KOAO5EEI66WOF36N5E';
+      final output = CID.decodeCid(input);
+
+      expect(output.multihashCode, 0x12);
+      expect(output.multihashName, "sha2-256");
+      expect(output.multihashSize, 256 / 8); // size in bytes
+      expect(output.multicodecName, "raw");
+      expect(output.multicodecCode, 0x55);
+      expect(output.multibase, "base32upper");
+      expect(output.version, 1);
+    }, tags: "unit");
+
     test('raw binary, base58btc', () {
       // See the inspector of this code in https://cid.ipfs.tech/#zb2rhe5P4gXftAwvA4eXQ5HJwsER2owDyS9sKaQRRVQPn93bs.
       String input = 'zb2rhe5P4gXftAwvA4eXQ5HJwsER2owDyS9sKaQRRVQPn93bs';
@@ -86,6 +162,20 @@ void main() {
       expect(output.multicodecName, "raw");
       expect(output.multicodecCode, 0x55);
       expect(output.multibase, "base58btc");
+      expect(output.version, 1);
+    }, tags: "unit");
+
+        test('raw binary, base64', () {
+      // See the inspector of this code in https://cid.ipfs.tech/#mAVUSILlNJ7mTTT4IpS5S19p9q/rEhO/jelOA7pCI96zi783p.
+      String input = 'mAVUSILlNJ7mTTT4IpS5S19p9q/rEhO/jelOA7pCI96zi783p';
+      final output = CID.decodeCid(input);
+
+      expect(output.multihashCode, 0x12);
+      expect(output.multihashName, "sha2-256");
+      expect(output.multihashSize, 256 / 8); // size in bytes
+      expect(output.multicodecName, "raw");
+      expect(output.multicodecCode, 0x55);
+      expect(output.multibase, "base64");
       expect(output.version, 1);
     }, tags: "unit");
   });
