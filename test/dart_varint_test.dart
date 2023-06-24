@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:dart_cid/src/utils.dart';
 import 'package:test/test.dart';
-import 'package:collection/collection.dart';
 
 void main() {
   test('decoding varint', () {

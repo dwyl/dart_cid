@@ -1,12 +1,7 @@
-import 'dart:ffi';
 import 'dart:typed_data';
-
-import 'package:base32/encodings.dart';
-import 'package:crypto/crypto.dart';
 import 'dart:convert';
 
-import 'package:base32/base32.dart';
-import 'package:bs58/bs58.dart';
+import 'package:crypto/crypto.dart';
 import 'package:dart_cid/src/decode_cid.dart';
 import 'package:dart_cid/src/multibase.dart';
 import 'package:dart_multihash/dart_multihash.dart';
