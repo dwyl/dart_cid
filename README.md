@@ -52,7 +52,7 @@ Add the following to your
 
 ```yaml
 dependencies:
-  dart_cid: ^0.0.1
+  dart_cid: ^0.1.0
 ```
 
 and run the following command 
@@ -78,7 +78,7 @@ do open
 import 'package:dart_cid/dart_cid.dart';
 
 String input = 'hello world';
-final output = Cid.createCid(input, Multibase.base58btc);
+final output = CID.createCid(input, Multibase.base58btc);
 ```
 
 and you're done! :tada:
