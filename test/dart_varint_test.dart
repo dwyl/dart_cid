@@ -12,10 +12,10 @@ void main() {
     var output = decodeVarint(inputValueInByteArray);
 
     expect(output.res, equals(inputValue));
-  });
+  }, tags: "unit");
 
   test('decoding varint invalid varint (out of bounds)', () {
     Uint8List input = Uint8List.fromList([232, 232, 255, 235, 230, 150]); // this varint is not finished being defined
     expect(() => decodeVarint(input), throwsA(TypeMatcher<RangeError>()));
-  });
+  }, tags: "unit");
 }
