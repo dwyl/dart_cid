@@ -1,4 +1,3 @@
-import 'package:dart_cid/src/multibase.dart';
 import 'package:test/test.dart';
 
 void main() {

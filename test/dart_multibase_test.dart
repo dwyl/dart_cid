@@ -1,7 +1,6 @@
 import 'package:dart_cid/src/decode_cid.dart';
 import 'package:dart_cid/src/multibase.dart';
 import 'package:test/test.dart';
-import 'package:convert/convert.dart';
 import 'dart:typed_data';
 
 void main() {
