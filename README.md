@@ -64,6 +64,8 @@ flutter pub get
 
 ## Usage
 
+### Creating a `CID`
+
 Now just call the `createCid()` function!
 You may decide what 
 [multibase](https://github.com/multiformats/multibase#multibase-table) 
@@ -90,7 +92,19 @@ You just created your own fancy `cid`!
 package will use the `raw` codec 
 and will be hashed using the `sha2-258`
 algorithm.
-You may be choose which base you want to encode it as, though.
+You may choose which base you want to encode it as, though.
+
+### Decoding a `CID`
+
+If you're given a `CID` and you wish to decode it,
+you can use the `decodeCid()` function.
+
+```dart
+CIDInfo cidInfo = decodeCid("some_cid");
+```
+
+This function will return an instance of `CIDInfo`,
+holding relevant information of the provided `CID`.
 
 ## Considerations
 
