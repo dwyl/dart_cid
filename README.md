@@ -100,7 +100,7 @@ If you're given a `CID` and you wish to decode it,
 you can use the `decodeCid()` function.
 
 ```dart
-CIDInfo cidInfo = decodeCid("some_cid");
+CIDInfo cidInfo = CID.decodeCid("some_cid");
 ```
 
 This function will return an instance of `CIDInfo`,
