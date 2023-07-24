@@ -62,8 +62,66 @@ class CIDInfo {
         }
       default:
         {
-          throw Exception("Can not convert CID version $version to version 1. This is a bug please report.");
+          throw Exception("Can not convert CID version $version to version 1. Invalid version.");
         }
     }
   }
+
+  /*
+  /// Converts object to a CIDv0.
+  /// It must have specific properties so that it can be converted to CIDv0.
+  /// Check https://proto.school/anatomy-of-a-cid/06 for more information.
+  toV0() {
+    switch (version) {
+      case 0:
+        {
+          return this;
+        }
+      case 1:
+        {
+
+          // Checking if properties are valid for conversion
+          MultiCodec dagPbCodec = MultiCodecs.list().where((element) => element.name == 'dag-pb').first;
+
+          if (multicodecName != dagPbCodec.name && multicodecCode != dagPbCodec.code) {
+            throw Exception('Cannot convert a non \'dag-pb\' CID to CIDv0.');
+          }
+
+          if (multihashInfo.name != 'sha2-256') {
+            throw Exception('Cannot convert non \'sha2-256\' multihash CID to CIDv0.');
+          }
+
+          if (multihashInfo.size != 32) {
+            throw Exception('Cannot convert non 32 byte multihash CID to CIDv0.');
+          }
+
+          if (multibase != Multibase.base58btc) {
+            throw Exception('Cannot convert non \'base58btc\' multibase CID to CIDv0.');
+          }
+
+          int newVersion = 0;
+
+          // Get multihash as array of bytes
+          Uint8List multihashBytesArray = multihashInfo.toBytes();
+
+          // Adding suffixes to multihash
+          // The new CID will have a suffix of version 1 and the given multicodec
+          Uint8List suffixedMultihash = addSuffixToMultihash(multihashBytesArray, newVersion, multicodecCode);
+
+          // New CID string
+          String newCIDString = encodeInputMultihashWithBase(multibase, suffixedMultihash);
+
+          // Change properties
+          version = 0;
+          cid = newCIDString;
+
+          break;
+        }
+      default:
+        {
+          throw Exception("Can not convert CID version $version to version 1. Invalid version.");
+        }
+    }
+  }
+  */
 }
