@@ -55,7 +55,7 @@ void main() {
       expect(output.multihashInfo.size, 256 / 8); // size in bytes
       expect(output.multicodecName, "dag-pb");
       expect(output.multicodecCode, 0x70);
-      expect(output.multibase, "base58btc");
+      expect(output.multibase.baseName, "base58btc");
       expect(output.version, 0);
     }, tags: "unit");
 
@@ -69,7 +69,7 @@ void main() {
       expect(output.multihashInfo.size, 256 / 8); // size in bytes
       expect(output.multicodecName, "dag-pb");
       expect(output.multicodecCode, 0x70);
-      expect(output.multibase, "base32");
+      expect(output.multibase.baseName, "base32");
       expect(output.version, 1);
     }, tags: "unit");
   });
@@ -119,7 +119,7 @@ void main() {
       expect(output.multihashInfo.size, 256 / 8); // size in bytes
       expect(output.multicodecName, "raw");
       expect(output.multicodecCode, 0x55);
-      expect(output.multibase, "base16");
+      expect(output.multibase.baseName, "base16");
       expect(output.version, 1);
     }, tags: "unit");
 
@@ -133,7 +133,7 @@ void main() {
       expect(output.multihashInfo.size, 256 / 8); // size in bytes
       expect(output.multicodecName, "raw");
       expect(output.multicodecCode, 0x55);
-      expect(output.multibase, "base16upper");
+      expect(output.multibase.baseName, "base16upper");
       expect(output.version, 1);
     }, tags: "unit");
 
@@ -147,7 +147,7 @@ void main() {
       expect(output.multihashInfo.size, 256 / 8); // size in bytes
       expect(output.multicodecName, "raw");
       expect(output.multicodecCode, 0x55);
-      expect(output.multibase, "base32upper");
+      expect(output.multibase.baseName, "base32upper");
       expect(output.version, 1);
     }, tags: "unit");
 
@@ -161,7 +161,7 @@ void main() {
       expect(output.multihashInfo.size, 256 / 8); // size in bytes
       expect(output.multicodecName, "raw");
       expect(output.multicodecCode, 0x55);
-      expect(output.multibase, "base58btc");
+      expect(output.multibase.baseName, "base58btc");
       expect(output.version, 1);
     }, tags: "unit");
 
@@ -175,7 +175,7 @@ void main() {
       expect(output.multihashInfo.size, 256 / 8); // size in bytes
       expect(output.multicodecName, "raw");
       expect(output.multicodecCode, 0x55);
-      expect(output.multibase, "base64");
+      expect(output.multibase.baseName, "base64");
       expect(output.version, 1);
     }, tags: "unit");
   });

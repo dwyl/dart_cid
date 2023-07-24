@@ -34,7 +34,7 @@ class CID {
         multihashInfo: multihashInfo,
         multicodecName: codecObj.name,
         multicodecCode: codecCode,
-        multibase: base.baseName,
+        multibase: base,
         version: version,
         cid: cidString);
 

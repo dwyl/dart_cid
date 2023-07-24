@@ -50,7 +50,7 @@ CIDInfo decodeCIDStringInformationStep2(Uint8List binary, Multibase multibase, S
         multicodecCode: multicodecObj.code,
         multicodecName: multicodecObj.name,
         version: 0,
-        multibase: multibase.baseName,
+        multibase: multibase,
         cid: cidString);
   }
 
@@ -80,7 +80,7 @@ CIDInfo decodeCIDStringInformationStep2(Uint8List binary, Multibase multibase, S
           multicodecCode: multicodecObj.code,
           multicodecName: multicodecObj.name,
           version: version,
-          multibase: multibase.baseName,
+          multibase: multibase,
           cid: cidString);
     }
 
