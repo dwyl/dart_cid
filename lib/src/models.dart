@@ -1,10 +1,11 @@
+import 'dart:typed_data';
+
+import 'package:dart_multihash/dart_multihash.dart';
+
 /// Class that holds the information of the provided `cid`.
 class CIDInfo {
   // Multihash
-  final List<int> multihashDigest;
-  final String multihashName;
-  final int multihashCode;
-  final int multihashSize;
+  MultihashInfo multihashInfo;
 
   // Multicodec
   final String multicodecName;
@@ -20,13 +21,12 @@ class CIDInfo {
   final String cid;
 
   CIDInfo(
-      {required this.multihashDigest,
-      required this.multihashName,
-      required this.multihashCode,
-      required this.multihashSize,
+      {required this.multihashInfo,
       required this.multicodecName,
       required this.multicodecCode,
       required this.multibase,
       required this.version,
       required this.cid});
+
+
 }

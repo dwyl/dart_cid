@@ -46,10 +46,7 @@ CIDInfo decodeCIDStringInformationStep2(Uint8List binary, Multibase multibase, S
     var multicodecObj = dart_multihash.MultiCodecs.list().where((element) => element.name == "dag-pb").first;
 
     return CIDInfo(
-        multihashDigest: multihashInfo.digest,
-        multihashCode: multihashInfo.code,
-        multihashName: multihashInfo.name,
-        multihashSize: multihashInfo.size,
+        multihashInfo: multihashInfo,
         multicodecCode: multicodecObj.code,
         multicodecName: multicodecObj.name,
         version: 0,
@@ -79,10 +76,7 @@ CIDInfo decodeCIDStringInformationStep2(Uint8List binary, Multibase multibase, S
       int version = 1;
 
       return CIDInfo(
-          multihashDigest: multihashInfo.digest,
-          multihashCode: multihashInfo.code,
-          multihashName: multihashInfo.name,
-          multihashSize: multihashInfo.size,
+          multihashInfo: multihashInfo,
           multicodecCode: multicodecObj.code,
           multicodecName: multicodecObj.name,
           version: version,

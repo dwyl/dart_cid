@@ -50,9 +50,9 @@ void main() {
       String input = 'QmRKs2ZfuwvmZA3QAWmCqrGUjV9pxtBUDP3wuc6iVGnjA2';
       final output = CID.decodeCid(input);
 
-      expect(output.multihashCode, 0x12);
-      expect(output.multihashName, "sha2-256");
-      expect(output.multihashSize, 256 / 8); // size in bytes
+      expect(output.multihashInfo.code, 0x12);
+      expect(output.multihashInfo.name, "sha2-256");
+      expect(output.multihashInfo.size, 256 / 8); // size in bytes
       expect(output.multicodecName, "dag-pb");
       expect(output.multicodecCode, 0x70);
       expect(output.multibase, "base58btc");
@@ -64,9 +64,9 @@ void main() {
       String input = 'bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi';
       final output = CID.decodeCid(input);
 
-      expect(output.multihashCode, 0x12);
-      expect(output.multihashName, "sha2-256");
-      expect(output.multihashSize, 256 / 8); // size in bytes
+      expect(output.multihashInfo.code, 0x12);
+      expect(output.multihashInfo.name, "sha2-256");
+      expect(output.multihashInfo.size, 256 / 8); // size in bytes
       expect(output.multicodecName, "dag-pb");
       expect(output.multicodecCode, 0x70);
       expect(output.multibase, "base32");
@@ -114,9 +114,9 @@ void main() {
       String input = 'f01551220b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9';
       final output = CID.decodeCid(input);
 
-      expect(output.multihashCode, 0x12);
-      expect(output.multihashName, "sha2-256");
-      expect(output.multihashSize, 256 / 8); // size in bytes
+      expect(output.multihashInfo.code, 0x12);
+      expect(output.multihashInfo.name, "sha2-256");
+      expect(output.multihashInfo.size, 256 / 8); // size in bytes
       expect(output.multicodecName, "raw");
       expect(output.multicodecCode, 0x55);
       expect(output.multibase, "base16");
@@ -128,9 +128,9 @@ void main() {
       String input = 'F01551220B94D27B9934D3E08A52E52D7DA7DABFAC484EFE37A5380EE9088F7ACE2EFCDE9';
       final output = CID.decodeCid(input);
 
-      expect(output.multihashCode, 0x12);
-      expect(output.multihashName, "sha2-256");
-      expect(output.multihashSize, 256 / 8); // size in bytes
+      expect(output.multihashInfo.code, 0x12);
+      expect(output.multihashInfo.name, "sha2-256");
+      expect(output.multihashInfo.size, 256 / 8); // size in bytes
       expect(output.multicodecName, "raw");
       expect(output.multicodecCode, 0x55);
       expect(output.multibase, "base16upper");
@@ -142,9 +142,9 @@ void main() {
       String input = 'BAFKREIFZJUT3TE2NHYEKKLSS27NH3K72YSCO7Y32KOAO5EEI66WOF36N5E';
       final output = CID.decodeCid(input);
 
-      expect(output.multihashCode, 0x12);
-      expect(output.multihashName, "sha2-256");
-      expect(output.multihashSize, 256 / 8); // size in bytes
+      expect(output.multihashInfo.code, 0x12);
+      expect(output.multihashInfo.name, "sha2-256");
+      expect(output.multihashInfo.size, 256 / 8); // size in bytes
       expect(output.multicodecName, "raw");
       expect(output.multicodecCode, 0x55);
       expect(output.multibase, "base32upper");
@@ -156,9 +156,9 @@ void main() {
       String input = 'zb2rhe5P4gXftAwvA4eXQ5HJwsER2owDyS9sKaQRRVQPn93bs';
       final output = CID.decodeCid(input);
 
-      expect(output.multihashCode, 0x12);
-      expect(output.multihashName, "sha2-256");
-      expect(output.multihashSize, 256 / 8); // size in bytes
+      expect(output.multihashInfo.code, 0x12);
+      expect(output.multihashInfo.name, "sha2-256");
+      expect(output.multihashInfo.size, 256 / 8); // size in bytes
       expect(output.multicodecName, "raw");
       expect(output.multicodecCode, 0x55);
       expect(output.multibase, "base58btc");
@@ -170,9 +170,9 @@ void main() {
       String input = 'mAVUSILlNJ7mTTT4IpS5S19p9q/rEhO/jelOA7pCI96zi783p';
       final output = CID.decodeCid(input);
 
-      expect(output.multihashCode, 0x12);
-      expect(output.multihashName, "sha2-256");
-      expect(output.multihashSize, 256 / 8); // size in bytes
+      expect(output.multihashInfo.code, 0x12);
+      expect(output.multihashInfo.name, "sha2-256");
+      expect(output.multihashInfo.size, 256 / 8); // size in bytes
       expect(output.multicodecName, "raw");
       expect(output.multicodecCode, 0x55);
       expect(output.multibase, "base64");

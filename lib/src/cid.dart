@@ -16,14 +16,14 @@ class CID {
   /// The returned `cid` consists of a `sha2-256` multihash, a `raw` multicodec and base encoded either 32 or 58.
   static CIDInfo createCid(String text, Multibase base) {
     // Create multihash
-    MultihashInfo multihash = createMultihash(text);
-    Uint8List multihashBytesArray = multihash.toBytes();
+    MultihashInfo multihashInfo = createMultihash(text);
+    Uint8List multihashBytesArray = multihashInfo.toBytes();
 
-    // Adding suffixex to multihash
+    // Adding suffixes to multihash
     // Currently, the suffix consists of version 1 and `raw` multicodec.
     int version = 0x01;
     int codecCode = 0x55;
-    Uint8List suffixedMultihash = _addSuffixToMultihash(multihashBytesArray, version, codecCode);
+    Uint8List suffixedMultihash = addSuffixToMultihash(multihashBytesArray, version, codecCode);
 
     var codecObj = MultiCodecs.list().where((element) => element.code == codecCode).first;
 
@@ -31,10 +31,7 @@ class CID {
 
     // Creating CIDInfo object to return
     CIDInfo cidInfo = CIDInfo(
-        multihashDigest: multihash.digest,
-        multihashName: multihash.name,
-        multihashCode: multihash.code,
-        multihashSize: multihash.size,
+        multihashInfo: multihashInfo,
         multicodecName: codecObj.name,
         multicodecCode: codecCode,
         multibase: base.baseName,
@@ -49,20 +46,4 @@ class CID {
   static CIDInfo decodeCid(String input) {
     return decodeCIDStringInformation(input);
   }
-}
-
-/// Adds a suffix to the multihash with the given [multihash] with the [version] and [codec].
-///
-/// These are part of the `CIDv1` hash. For more information about the information
-/// that is present inside a `CIDv1` hash, check the [official IPFS](https://docs.ipfs.tech/concepts/content-addressing/#cid-versions) docs.
-Uint8List _addSuffixToMultihash(Uint8List multihash, int version, int codec) {
-  BytesBuilder b = BytesBuilder();
-
-  // Adds the convention codes for the version and the codec.
-  // These codes can be found in the canonical repo -> https://github.com/multiformats/multicodec/blob/master/table.csv
-  b.add(Uint8List.fromList([version]));
-  b.add(Uint8List.fromList([codec]));
-  b.add(multihash);
-
-  return b.toBytes();
 }
