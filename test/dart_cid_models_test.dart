@@ -1,8 +1,4 @@
-import 'dart:typed_data';
-
 import 'package:dart_cid/dart_cid.dart';
-import 'package:dart_cid/src/multibase.dart';
-import 'package:dart_cid/src/utils.dart';
 import 'package:test/test.dart';
 
 void main() {
