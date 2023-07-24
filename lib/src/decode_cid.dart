@@ -8,17 +8,24 @@ import 'multibase.dart';
 
 /// Class that holds the information of the provided `cid`.
 class CIDInfo {
+  // Multihash
   final List<int> multihashDigest;
   final String multihashName;
   final int multihashCode;
   final int multihashSize;
 
+  // Multicodec
   final String multicodecName;
   final int multicodecCode;
 
+  // Version
   final int version;
 
+  // Multibase
   final String multibase;
+
+  // CID
+  final String cid;
 
   CIDInfo(
       {required this.multihashDigest,
@@ -28,7 +35,8 @@ class CIDInfo {
       required this.multicodecName,
       required this.multicodecCode,
       required this.multibase,
-      required this.version});
+      required this.version,
+      required this.cid});
 }
 
 /// Decodes a `cid` string.
@@ -37,7 +45,7 @@ CIDInfo decodeCIDStringInformation(String input) {
   // Check if string is 46 characters long and if starts with "Qm"
   if (input.length == 46 && input.substring(0, 2) == "Qm") {
     Uint8List decodedInput = base58.decode(input);
-    return decodeCIDStringInformationStep2(decodedInput, Multibase.base58btc);
+    return decodeCIDStringInformationStep2(decodedInput, Multibase.base58btc, input);
   }
 
   // Otherwise, decode it according to the multibase spec
@@ -51,7 +59,7 @@ CIDInfo decodeCIDStringInformation(String input) {
     if (decodedArray.first == 0x12) {
       throw Exception("CIDv0 CIDs may not be multibase encoded and there will be no CIDv18 (0x12 = 18) to prevent ambiguity with decoded CIDv0s");
     } else {
-      return decodeCIDStringInformationStep2(decodedArray, base);
+      return decodeCIDStringInformationStep2(decodedArray, base, input);
     }
   }
 }
@@ -59,7 +67,8 @@ CIDInfo decodeCIDStringInformation(String input) {
 /// Refers to the `step2` of https://github.com/multiformats/cid/blob/ef1b2002394b15b1e6c26c30545fd485f2c4c138/README.md#decoding-algorithm
 /// to decode a given `cid` string.
 /// Receives the [binary] multihash and the [multibase] it was encoded in.
-CIDInfo decodeCIDStringInformationStep2(Uint8List binary, Multibase multibase) {
+/// Also receives the original [cidString] string to add it to the CIDInfo object.
+CIDInfo decodeCIDStringInformationStep2(Uint8List binary, Multibase multibase, String cidString) {
   // If it's 34 bytes long with the leading bytes [0x12, 0x20, ...], it's a CIDv0
   if (binary.length == 34 && binary[0] == 0x12 && binary[1] == 0x20) {
     // The CID's multihash is `cid` itself. The multibase and multicodec are implicit.
@@ -76,7 +85,8 @@ CIDInfo decodeCIDStringInformationStep2(Uint8List binary, Multibase multibase) {
         multicodecCode: multicodecObj.code,
         multicodecName: multicodecObj.name,
         version: 0,
-        multibase: multibase.baseName);
+        multibase: multibase.baseName,
+        cid: cidString);
   }
 
   // Otherwise, let N be the first varint in `binary`. This is the CID's version.
@@ -108,7 +118,8 @@ CIDInfo decodeCIDStringInformationStep2(Uint8List binary, Multibase multibase) {
           multicodecCode: multicodecObj.code,
           multicodecName: multicodecObj.name,
           version: version,
-          multibase: multibase.baseName);
+          multibase: multibase.baseName,
+          cid: cidString);
     }
 
     // If `N <= 0`, the CID is malformed.

@@ -10,7 +10,7 @@ void main() {
   group("Regular tests", () {
     test('creating cid with \'hello world \' with base58 encoding', () {
       String input = 'hello world';
-      final output = CID.createCid(input, Multibase.base58btc);
+      final output = CID.createCid(input, Multibase.base58btc).cid;
 
       // https://cid.ipfs.tech/#zb2rhj7crUKTQYRGCRATFaQ6YFLTde2YzdqbbhAASkL9uRDXn
       expect(output == "zb2rhj7crUKTQYRGCRATFaQ6YFLTde2YzdqbbhAASkL9uRDXn", true);
@@ -18,7 +18,7 @@ void main() {
 
     test('creating cid with \'hello world \' with base32 encoding', () {
       String input = 'hello world';
-      final output = CID.createCid(input, Multibase.base32upper);
+      final output = CID.createCid(input, Multibase.base32upper).cid;
 
       // https://cid.ipfs.tech/#BAFKREIFZJUT3TE2NHYEKKLSS27NH3K72YSCO7Y32KOAO5EEI66WOF36N5E
       expect(output == "BAFKREIFZJUT3TE2NHYEKKLSS27NH3K72YSCO7Y32KOAO5EEI66WOF36N5E", true);
@@ -35,8 +35,8 @@ void main() {
 
     test('empty values should yield results', () {
       String input = '';
-      final output1 = CID.createCid(input, Multibase.base32upper);
-      final output2 = CID.createCid(input, Multibase.base58btc);
+      final output1 = CID.createCid(input, Multibase.base32upper).cid;
+      final output2 = CID.createCid(input, Multibase.base58btc).cid;
 
       expect(output1, isNotEmpty);
       expect(output1 == 'BAFKREIHDWDCEFGH4DQKJV67UZCMW7OJEE6XEDZDETOJUZJEVTENXQUVYKU', true);
@@ -77,7 +77,7 @@ void main() {
   group("Encoding different CIDs:", () {
     test('base16', () {
       String input = 'hello world';
-      final output = CID.createCid(input, Multibase.base16);
+      final output = CID.createCid(input, Multibase.base16).cid;
 
       // See the inspector of this code in https://cid.ipfs.tech/#f01551220b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9.
       expect(output == "f01551220b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9", true);
@@ -85,7 +85,7 @@ void main() {
 
     test('base16upper', () {
       String input = 'hello world';
-      final output = CID.createCid(input, Multibase.base16upper);
+      final output = CID.createCid(input, Multibase.base16upper).cid;
 
       // See the inspector of this code in https://cid.ipfs.tech/#F01551220B94D27B9934D3E08A52E52D7DA7DABFAC484EFE37A5380EE9088F7ACE2EFCDE9.
       expect(output == "F01551220B94D27B9934D3E08A52E52D7DA7DABFAC484EFE37A5380EE9088F7ACE2EFCDE9", true);
@@ -93,7 +93,7 @@ void main() {
 
     test('base32upper', () {
       String input = 'hello world';
-      final output = CID.createCid(input, Multibase.base32upper);
+      final output = CID.createCid(input, Multibase.base32upper).cid;
 
       // See the inspector of this code in https://cid.ipfs.tech/#BAFKREIFZJUT3TE2NHYEKKLSS27NH3K72YSCO7Y32KOAO5EEI66WOF36N5E.
       expect(output == "BAFKREIFZJUT3TE2NHYEKKLSS27NH3K72YSCO7Y32KOAO5EEI66WOF36N5E", true);
@@ -101,7 +101,7 @@ void main() {
 
     test('base64', () {
       String input = 'hello world';
-      final output = CID.createCid(input, Multibase.base64);
+      final output = CID.createCid(input, Multibase.base64).cid;
 
       // See the inspector of this code in https://cid.ipfs.tech/#mAVUSILlNJ7mTTT4IpS5S19p9q/rEhO/jelOA7pCI96zi783p.
       expect(output == "mAVUSILlNJ7mTTT4IpS5S19p9q/rEhO/jelOA7pCI96zi783p", true);
@@ -243,5 +243,5 @@ Future<CidComparison> comparedPackageWithIPFSCid(String inputString, String file
   await process.kill();
   myFile.delete();
 
-  return CidComparison(ipfsCid: ipfsCid, packageCid: packageCid);
+  return CidComparison(ipfsCid: ipfsCid, packageCid: packageCid.cid);
 }

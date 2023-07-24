@@ -11,21 +11,24 @@ void main() {
   }, tags: "unit");
 
   test('Multicodec code is not supported.', () {
+    String cidString = 'invalid codec';
     Uint8List input = Uint8List.fromList([1, -1, 18, 32, 185, 77, 39, 185, 147, 77, 62, 8, 165, 46, 82, 215, 218, 125, 171, 250, 196, 132, 239, 227, 122, 83, 128, 238, 144, 136, 247, 172, 226, 239, 205, 233]);
 
-    expect(() => decodeCIDStringInformationStep2(input, Multibase.base16), throwsException);
+    expect(() => decodeCIDStringInformationStep2(input, Multibase.base16, cidString), throwsException);
   }, tags: "unit");
 
   test('Multicodec version cannot be malformed', () {
+    String cidString = 'invalid codec';
     Uint8List input = Uint8List.fromList([0, -1, 18, 32, 185, 77, 39, 185, 147, 77, 62, 8, 165, 46, 82, 215, 218, 125, 171, 250, 196, 132, 239, 227, 122, 83, 128, 238, 144, 136, 247, 172, 226, 239, 205, 233]);
 
-    expect(() => decodeCIDStringInformationStep2(input, Multibase.base16), throwsException);
+    expect(() => decodeCIDStringInformationStep2(input, Multibase.base16, cidString), throwsException);
   }, tags: "unit");
 
   test('Multicodec version cannot be bigger than 1', () {
+    String cidString = 'invalid codec';
     Uint8List input = Uint8List.fromList([4, -1, 18, 32, 185, 77, 39, 185, 147, 77, 62, 8, 165, 46, 82, 215, 218, 125, 171, 250, 196, 132, 239, 227, 122, 83, 128, 238, 144, 136, 247, 172, 226, 239, 205, 233]);
 
-    expect(() => decodeCIDStringInformationStep2(input, Multibase.base16), throwsException);
+    expect(() => decodeCIDStringInformationStep2(input, Multibase.base16, cidString), throwsException);
   }, tags: "unit");
 
   test('Multibase code is not supported.', () {
