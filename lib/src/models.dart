@@ -45,10 +45,12 @@ class CIDInfo {
 
           // Adding suffixes to multihash
           // The new CID will have a suffix of version 1 and the given multicodec
-          Uint8List suffixedMultihash = addSuffixToMultihash(multihashBytesArray, newVersion, multicodecCode);
+          Uint8List suffixedMultihash = addSuffixToMultihash(
+              multihashBytesArray, newVersion, multicodecCode);
 
           // New CID string
-          String newCIDString = encodeInputMultihashWithBase(base, suffixedMultihash);
+          String newCIDString =
+              encodeInputMultihashWithBase(base, suffixedMultihash);
 
           version = newVersion;
           cid = newCIDString;
@@ -62,7 +64,8 @@ class CIDInfo {
         }
       default:
         {
-          throw Exception("Can not convert CID version $version to version 1. Invalid version.");
+          throw Exception(
+              "Can not convert CID version $version to version 1. Invalid version.");
         }
     }
   }
@@ -125,7 +128,6 @@ class CIDInfo {
   }
   */
 }
-
 
 /// Not all multibase spec base types are supported by this library.
 /// We support the `default` ones from the official repo in https://github.com/multiformats/multibase/blob/master/multibase.csv.

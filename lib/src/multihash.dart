@@ -10,7 +10,6 @@ import 'package:dart_multihash/dart_multihash.dart';
 /// It hashes the input string with `sha2-256` and suffixes it with the
 /// correspondent Multiformat convention code.
 MultihashInfo createMultihash(String text) {
-
   const multihashName = 'sha2-256';
 
   // Get the array of bytes from the given text

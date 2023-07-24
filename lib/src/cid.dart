@@ -23,9 +23,11 @@ class CID {
     // Currently, the suffix consists of version 1 and `raw` multicodec.
     int version = 0x01;
     int codecCode = 0x55;
-    Uint8List suffixedMultihash = addSuffixToMultihash(multihashBytesArray, version, codecCode);
+    Uint8List suffixedMultihash =
+        addSuffixToMultihash(multihashBytesArray, version, codecCode);
 
-    var codecObj = MultiCodecs.list().where((element) => element.code == codecCode).first;
+    var codecObj =
+        MultiCodecs.list().where((element) => element.code == codecCode).first;
 
     String cidString = encodeInputMultihashWithBase(base, suffixedMultihash);
 

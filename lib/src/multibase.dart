@@ -20,7 +20,8 @@ Multibase getMultibaseFromCode(final String code) {
 
 /// Encodes a given [suffixedMultihash] with a given multibase.
 /// The encoded is the multibase code + encoded hash.
-String encodeInputMultihashWithBase(final Multibase base, Uint8List suffixedMultihash) {
+String encodeInputMultihashWithBase(
+    final Multibase base, Uint8List suffixedMultihash) {
   switch (base) {
     case Multibase.base16:
       {
@@ -36,7 +37,8 @@ String encodeInputMultihashWithBase(final Multibase base, Uint8List suffixedMult
 
     case Multibase.base32:
       {
-        String encodedHash = base32_library.base32.encode(suffixedMultihash, encoding: Encoding.nonStandardRFC4648Lower);
+        String encodedHash = base32_library.base32.encode(suffixedMultihash,
+            encoding: Encoding.nonStandardRFC4648Lower);
         String padlessEncodedHash = encodedHash.replaceAll("=", "");
 
         return base.baseCode + padlessEncodedHash;
@@ -44,7 +46,8 @@ String encodeInputMultihashWithBase(final Multibase base, Uint8List suffixedMult
 
     case Multibase.base32upper:
       {
-        String encodedHash = base32_library.base32.encode(suffixedMultihash, encoding: Encoding.standardRFC4648);
+        String encodedHash = base32_library.base32
+            .encode(suffixedMultihash, encoding: Encoding.standardRFC4648);
         String padlessEncodedHash = encodedHash.replaceAll("=", "");
 
         return base.baseCode + padlessEncodedHash;
@@ -82,7 +85,8 @@ Uint8List decodeInputStringWithBase(final Multibase base, String input) {
 
     case Multibase.base32:
       {
-        return base32_library.base32.decode(sbstr, encoding: Encoding.nonStandardRFC4648Lower);
+        return base32_library.base32
+            .decode(sbstr, encoding: Encoding.nonStandardRFC4648Lower);
       }
 
     case Multibase.base32upper:

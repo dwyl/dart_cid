@@ -23,7 +23,10 @@ void main() {
 
       // If checking the inspector, we can see this is the equivalent CIDv1 in base32.
       // https://cid.ipfs.tech/#bafybeigrf2dwtpjkiovnigysyto3d55opf6qkdikx6d65onrqnfzwgdkfa
-      expect(obj.cid, equals("bafybeigrf2dwtpjkiovnigysyto3d55opf6qkdikx6d65onrqnfzwgdkfa"));
+      expect(
+          obj.cid,
+          equals(
+              "bafybeigrf2dwtpjkiovnigysyto3d55opf6qkdikx6d65onrqnfzwgdkfa"));
       expect(obj.multibase, equals(Multibase.base32));
       expect(obj.version, equals(1));
     }, tags: "unit");
@@ -43,7 +46,8 @@ void main() {
       obj.toV1(base: Multibase.base58btc);
 
       // https://cid.ipfs.tech/#zdj7WjWTSNpEsBhWRz3kb3VD6z8PDseusV8Z8eFp14aFHqWAB
-      expect(obj.cid, equals("zdj7WjWTSNpEsBhWRz3kb3VD6z8PDseusV8Z8eFp14aFHqWAB"));
+      expect(
+          obj.cid, equals("zdj7WjWTSNpEsBhWRz3kb3VD6z8PDseusV8Z8eFp14aFHqWAB"));
       expect(obj.version, equals(1));
     }, tags: "unit");
 
