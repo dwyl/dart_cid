@@ -34,7 +34,7 @@ class CIDInfo {
   /// Converts the object to CIDv1, if possible.
   /// A new multibase can be passed as parameter to encode the CIDv1 in a new base, if wanted.
   /// By default, the new multibase is set to `base32`.
-  toV1({Multibase newBase = Multibase.base32}) {
+  toV1({Multibase base = Multibase.base32}) {
     switch (version) {
       case 0:
         {
@@ -48,11 +48,11 @@ class CIDInfo {
           Uint8List suffixedMultihash = addSuffixToMultihash(multihashBytesArray, newVersion, multicodecCode);
 
           // New CID string
-          String newCIDString = encodeInputMultihashWithBase(newBase, suffixedMultihash);
+          String newCIDString = encodeInputMultihashWithBase(base, suffixedMultihash);
 
           version = newVersion;
           cid = newCIDString;
-          multibase = newBase;
+          multibase = base;
 
           break;
         }

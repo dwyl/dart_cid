@@ -165,7 +165,7 @@ void main() {
       expect(output.version, 1);
     }, tags: "unit");
 
-        test('raw binary, base64', () {
+    test('raw binary, base64', () {
       // See the inspector of this code in https://cid.ipfs.tech/#mAVUSILlNJ7mTTT4IpS5S19p9q/rEhO/jelOA7pCI96zi783p.
       String input = 'mAVUSILlNJ7mTTT4IpS5S19p9q/rEhO/jelOA7pCI96zi783p';
       final output = CID.decodeCid(input);
