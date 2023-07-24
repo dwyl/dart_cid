@@ -15,13 +15,13 @@ class CIDInfo {
   final int multicodecCode;
 
   // Version
-  final int version;
+  int version;
 
   // Multibase
-  final Multibase multibase;
+  Multibase multibase;
 
   // CID string
-  final String cid;
+  String cid;
 
   CIDInfo(
       {required this.multihashInfo,
@@ -31,33 +31,39 @@ class CIDInfo {
       required this.version,
       required this.cid});
 
-  /*
-  toV1() {
+  /// Converts the object to CIDv1, if possible.
+  /// A new multibase can be passed as parameter to encode the CIDv1 in a new base, if wanted.
+  /// By default, the new multibase is set to `base32`.
+  toV1({Multibase newBase = Multibase.base32}) {
     switch (version) {
-      case 0: {
+      case 0:
+        {
+          int newVersion = 1;
 
-        // Get multihash as array of bytes
-        Uint8List multihashBytesArray = multihashInfo.toBytes();
+          // Get multihash as array of bytes
+          Uint8List multihashBytesArray = multihashInfo.toBytes();
 
-        // Adding suffixes to multihash
-        // The new CID will have a suffix of version 1 and the given multicodec
-        Uint8List suffixedMultihash = addSuffixToMultihash(multihashBytesArray, 1, multicodecCode);
+          // Adding suffixes to multihash
+          // The new CID will have a suffix of version 1 and the given multicodec
+          Uint8List suffixedMultihash = addSuffixToMultihash(multihashBytesArray, newVersion, multicodecCode);
 
-        String cidString = encodeInputMultihashWithBase(base, suffixedMultihash);
+          // New CID string
+          String newCIDString = encodeInputMultihashWithBase(newBase, suffixedMultihash);
 
-        const { code, digest } = this.multihash
-        const multihash = Digest.create(code, digest)
-        return /** @type {CID<Data, Format, Alg, 1>} */ (
-          CID.createV1(this.code, multihash)
-        )
-      }
-      case 1: {
-        return this;
-      }
-      default: {
-        throw Exception("Can not convert CID version $version to version 1. This is a bug please report.");
-      }
+          version = newVersion;
+          cid = newCIDString;
+          multibase = newBase;
+
+          break;
+        }
+      case 1:
+        {
+          return this;
+        }
+      default:
+        {
+          throw Exception("Can not convert CID version $version to version 1. This is a bug please report.");
+        }
     }
   }
-  */
 }
