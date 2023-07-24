@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dart_cid/src/cid.dart';
+import 'package:dart_cid/src/models.dart';
 import 'package:dart_cid/src/multibase.dart';
 import 'package:random_string_generator/random_string_generator.dart';
 import 'package:test/test.dart';

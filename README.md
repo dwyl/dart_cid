@@ -80,7 +80,10 @@ do open
 import 'package:dart_cid/dart_cid.dart';
 
 String input = 'hello world';
-final output = CID.createCid(input, Multibase.base58btc);
+CIDInfo output = CID.createCid(input, Multibase.base58btc);
+
+print(output.cid)
+// "zb2rhj7crUKTQYRGCRATFaQ6YFLTde2YzdqbbhAASkL9uRDXn"
 ```
 
 and you're done! :tada:
@@ -106,16 +109,35 @@ CIDInfo cidInfo = decodeCid("some_cid");
 This function will return an instance of `CIDInfo`,
 holding relevant information of the provided `CID`.
 
+
+### Converting `CIDv0` to `CIDv1`
+
+If you've decoded a `CIDv0` string, 
+you can convert it to a `CIDv1` object by calling `toV1()`.
+This function can receive a multibase parameter if you wish to encode
+it in a different base (e.g. `toV1(Multibase.base58btc)`).
+By default, it is encoded to `base32`.
+
+```dart
+// Decode a v0 cid.
+CIDInfo cidInfo = decodeCid("QmcRD4wkPPi6dig81r5sLj9Zm1gDCL4zgpEj9CfuRrGbzF");
+
+// Convert it to v1
+cidInfo.toV1();
+print(cidInfo.cid)
+// "bafybeigrf2dwtpjkiovnigysyto3d55opf6qkdikx6d65onrqnfzwgdkfa"
+
+```
+
 ## Considerations
 
-The previous code snippet 
-will yield the following `cid`.
+If you're interested in learning more about a given CID's components...
 
 ```
 zb2rhj7crUKTQYRGCRATFaQ6YFLTde2YzdqbbhAASkL9uRDXn
 ```
 
-We can use the 
+...you can use the 
 [IPFS `cid` inspector](https://cid.ipfs.tech/#zb2rhj7crUKTQYRGCRATFaQ6YFLTde2YzdqbbhAASkL9uRDXn)
 to see the information that is
 hashed into the string.
