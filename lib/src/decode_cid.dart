@@ -4,40 +4,8 @@ import 'package:bs58/bs58.dart';
 import 'package:dart_cid/src/utils.dart';
 import 'package:dart_multihash/dart_multihash.dart' as dart_multihash;
 
+import 'models.dart';
 import 'multibase.dart';
-
-/// Class that holds the information of the provided `cid`.
-class CIDInfo {
-  // Multihash
-  final List<int> multihashDigest;
-  final String multihashName;
-  final int multihashCode;
-  final int multihashSize;
-
-  // Multicodec
-  final String multicodecName;
-  final int multicodecCode;
-
-  // Version
-  final int version;
-
-  // Multibase
-  final String multibase;
-
-  // CID
-  final String cid;
-
-  CIDInfo(
-      {required this.multihashDigest,
-      required this.multihashName,
-      required this.multihashCode,
-      required this.multihashSize,
-      required this.multicodecName,
-      required this.multicodecCode,
-      required this.multibase,
-      required this.version,
-      required this.cid});
-}
 
 /// Decodes a `cid` string.
 /// It follows the official algorithm in https://github.com/multiformats/cid/blob/ef1b2002394b15b1e6c26c30545fd485f2c4c138/README.md#decoding-algorithm.

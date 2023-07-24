@@ -6,6 +6,7 @@ import 'package:dart_cid/src/decode_cid.dart';
 import 'package:dart_cid/src/multibase.dart';
 import 'package:dart_multihash/dart_multihash.dart';
 
+import 'models.dart';
 import 'multihash.dart';
 
 /// Class that contains the functions to create a `cid`.

@@ -2,8 +2,6 @@ import 'dart:typed_data';
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:dart_cid/src/decode_cid.dart';
-import 'package:dart_cid/src/multibase.dart';
 import 'package:dart_multihash/dart_multihash.dart';
 
 /// Creates a [Multihash](https://multiformats.io/multihash/) hashed string
