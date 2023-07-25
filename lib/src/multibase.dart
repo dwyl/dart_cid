@@ -6,37 +6,7 @@ import 'package:base32/encodings.dart';
 import 'package:bs58/bs58.dart';
 import 'package:convert/convert.dart';
 
-/// Not all multibase spec base types are supported by this library.
-/// We support the `default` ones from the official repo in https://github.com/multiformats/multibase/blob/master/multibase.csv.
-enum Multibase {
-  /// hexadecimal
-  base16(code: 'f', name: "base16"),
-
-  /// hexadecimal
-  base16upper(code: 'F', name: "base16upper"),
-
-  /// rfc4648 case-insensitive - no padding
-  base32(code: 'b', name: "base32"),
-
-  /// rfc4648 case-insensitive - no padding
-  base32upper(code: 'B', name: "base32upper"),
-
-  /// base58 bitcoin
-  base58btc(code: 'z', name: "base58btc"),
-
-  /// rfc4648 no padding
-  base64(code: 'm', name: "base64");
-
-  /// Initialize a new multibase variant
-  const Multibase({
-    required final String code,
-    required final String name,
-  })  : baseCode = code,
-        baseName = name;
-
-  final String baseCode;
-  final String baseName;
-}
+import 'models.dart';
 
 /// Returns a `Multibase` class based off a given code
 Multibase getMultibaseFromCode(final String code) {
@@ -50,7 +20,8 @@ Multibase getMultibaseFromCode(final String code) {
 
 /// Encodes a given [suffixedMultihash] with a given multibase.
 /// The encoded is the multibase code + encoded hash.
-String encodeInputMultihashWithBase(final Multibase base, Uint8List suffixedMultihash) {
+String encodeInputMultihashWithBase(
+    final Multibase base, Uint8List suffixedMultihash) {
   switch (base) {
     case Multibase.base16:
       {
@@ -66,7 +37,8 @@ String encodeInputMultihashWithBase(final Multibase base, Uint8List suffixedMult
 
     case Multibase.base32:
       {
-        String encodedHash = base32_library.base32.encode(suffixedMultihash, encoding: Encoding.nonStandardRFC4648Lower);
+        String encodedHash = base32_library.base32.encode(suffixedMultihash,
+            encoding: Encoding.nonStandardRFC4648Lower);
         String padlessEncodedHash = encodedHash.replaceAll("=", "");
 
         return base.baseCode + padlessEncodedHash;
@@ -74,7 +46,8 @@ String encodeInputMultihashWithBase(final Multibase base, Uint8List suffixedMult
 
     case Multibase.base32upper:
       {
-        String encodedHash = base32_library.base32.encode(suffixedMultihash, encoding: Encoding.standardRFC4648);
+        String encodedHash = base32_library.base32
+            .encode(suffixedMultihash, encoding: Encoding.standardRFC4648);
         String padlessEncodedHash = encodedHash.replaceAll("=", "");
 
         return base.baseCode + padlessEncodedHash;
@@ -112,7 +85,8 @@ Uint8List decodeInputStringWithBase(final Multibase base, String input) {
 
     case Multibase.base32:
       {
-        return base32_library.base32.decode(sbstr, encoding: Encoding.nonStandardRFC4648Lower);
+        return base32_library.base32
+            .decode(sbstr, encoding: Encoding.nonStandardRFC4648Lower);
       }
 
     case Multibase.base32upper:
