@@ -4,6 +4,11 @@ A dart implementation of
 `cid` ("content id") = human-friendly 
 (readable/typeable) unique ID for **distributed/decentralised systems**.
 
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/dwyl/dart_cid/ci.yml?label=build&style=flat-square&branch=main)
+[![codecov.io](https://img.shields.io/codecov/c/github/dwyl/dart_cid/main.svg?style=flat-square)](https://codecov.io/github/dwyl/dart_cid?branch=main)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](https://github.com/dwyl/dart_cid/issues)
+[![HitCount](https://hits.dwyl.com/dwyl/dart_cid.svg)](https://hits.dwyl.com/dwyl/dart_cid)
+
 # Why 🤷
 
 In a database that is distributed,
