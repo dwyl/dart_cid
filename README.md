@@ -1,5 +1,7 @@
 # dart_cid
 
+<div align="center">
+
 A dart implementation of 
 `cid` ("content id") = human-friendly 
 (readable/typeable) unique ID for **distributed/decentralised systems**.
@@ -8,6 +10,8 @@ A dart implementation of
 [![codecov.io](https://img.shields.io/codecov/c/github/dwyl/dart_cid/main.svg?style=flat-square)](https://codecov.io/github/dwyl/dart_cid?branch=main)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](https://github.com/dwyl/dart_cid/issues)
 [![HitCount](https://hits.dwyl.com/dwyl/dart_cid.svg)](https://hits.dwyl.com/dwyl/dart_cid)
+
+</div>
 
 # Why 🤷
 
