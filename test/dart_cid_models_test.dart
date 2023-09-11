@@ -1,4 +1,4 @@
-import 'package:cid/dart_cid.dart';
+import 'package:cid/cid.dart';
 import 'package:test/test.dart';
 
 void main() {
