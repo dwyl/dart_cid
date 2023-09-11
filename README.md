@@ -77,7 +77,7 @@ do open
 
 
 ```dart
-import 'package:dart_cid/dart_cid.dart';
+import 'package:cid/dart_cid.dart';
 
 String input = 'hello world';
 CIDInfo output = CID.createCid(input, Multibase.base58btc);

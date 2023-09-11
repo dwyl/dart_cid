@@ -1,14 +1,12 @@
-import 'package:dart_cid/src/decode_cid.dart';
-import 'package:dart_cid/src/models.dart';
-import 'package:dart_cid/src/multibase.dart';
+import 'package:cid/src/decode_cid.dart';
+import 'package:cid/src/models.dart';
+import 'package:cid/src/multibase.dart';
 import 'package:test/test.dart';
 import 'dart:typed_data';
 
 void main() {
-  test('CIDv0 CIDs may not be multibase encoded and with 0x12 should throw',
-      () {
-    String input =
-        "f12551220b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9";
+  test('CIDv0 CIDs may not be multibase encoded and with 0x12 should throw', () {
+    String input = "f12551220b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9";
 
     expect(() => decodeCIDStringInformation(input), throwsException);
   }, tags: "unit");
@@ -54,10 +52,7 @@ void main() {
       233
     ]);
 
-    expect(
-        () =>
-            decodeCIDStringInformationStep2(input, Multibase.base16, cidString),
-        throwsException);
+    expect(() => decodeCIDStringInformationStep2(input, Multibase.base16, cidString), throwsException);
   }, tags: "unit");
 
   test('Multicodec version cannot be malformed', () {
@@ -101,10 +96,7 @@ void main() {
       233
     ]);
 
-    expect(
-        () =>
-            decodeCIDStringInformationStep2(input, Multibase.base16, cidString),
-        throwsException);
+    expect(() => decodeCIDStringInformationStep2(input, Multibase.base16, cidString), throwsException);
   }, tags: "unit");
 
   test('Multicodec version cannot be bigger than 1', () {
@@ -148,10 +140,7 @@ void main() {
       233
     ]);
 
-    expect(
-        () =>
-            decodeCIDStringInformationStep2(input, Multibase.base16, cidString),
-        throwsException);
+    expect(() => decodeCIDStringInformationStep2(input, Multibase.base16, cidString), throwsException);
   }, tags: "unit");
 
   test('Multibase code is not supported.', () {

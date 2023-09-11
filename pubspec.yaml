@@ -1,4 +1,4 @@
-name: dart_cid
+name: cid
 description: A dart-lang implementation for creating self-describing content-addressed identifiers for distributed systems (CIDs).
 version: 1.0.0
 homepage: https://github.com/dwyl/dart_cid

@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:bs58/bs58.dart';
-import 'package:dart_cid/src/utils.dart';
+import 'package:cid/src/utils.dart';
 import 'package:dart_multihash/dart_multihash.dart' as dart_multihash;
 
 import 'models.dart';
@@ -13,8 +13,7 @@ CIDInfo decodeCIDStringInformation(String input) {
   // Check if string is 46 characters long and if starts with "Qm"
   if (input.length == 46 && input.substring(0, 2) == "Qm") {
     Uint8List decodedInput = base58.decode(input);
-    return decodeCIDStringInformationStep2(
-        decodedInput, Multibase.base58btc, input);
+    return decodeCIDStringInformationStep2(decodedInput, Multibase.base58btc, input);
   }
 
   // Otherwise, decode it according to the multibase spec
@@ -26,8 +25,7 @@ CIDInfo decodeCIDStringInformation(String input) {
 
     // If the first decoded byte is 0x12, return an error.
     if (decodedArray.first == 0x12) {
-      throw Exception(
-          "CIDv0 CIDs may not be multibase encoded and there will be no CIDv18 (0x12 = 18) to prevent ambiguity with decoded CIDv0s");
+      throw Exception("CIDv0 CIDs may not be multibase encoded and there will be no CIDv18 (0x12 = 18) to prevent ambiguity with decoded CIDv0s");
     } else {
       return decodeCIDStringInformationStep2(decodedArray, base, input);
     }
@@ -38,17 +36,14 @@ CIDInfo decodeCIDStringInformation(String input) {
 /// to decode a given `cid` string.
 /// Receives the [binary] multihash and the [multibase] it was encoded in.
 /// Also receives the original [cidString] string to add it to the CIDInfo object.
-CIDInfo decodeCIDStringInformationStep2(
-    Uint8List binary, Multibase multibase, String cidString) {
+CIDInfo decodeCIDStringInformationStep2(Uint8List binary, Multibase multibase, String cidString) {
   // If it's 34 bytes long with the leading bytes [0x12, 0x20, ...], it's a CIDv0
   if (binary.length == 34 && binary[0] == 0x12 && binary[1] == 0x20) {
     // The CID's multihash is `cid` itself. The multibase and multicodec are implicit.
     var multihashInfo = dart_multihash.Multihash.decode(binary);
 
     // Codec is `DagProtobuf`
-    var multicodecObj = dart_multihash.MultiCodecs.list()
-        .where((element) => element.name == "dag-pb")
-        .first;
+    var multicodecObj = dart_multihash.MultiCodecs.list().where((element) => element.name == "dag-pb").first;
 
     return CIDInfo(
         multihashInfo: multihashInfo,
@@ -67,8 +62,7 @@ CIDInfo decodeCIDStringInformationStep2(
     if (n.res == 1) {
       // The multicodec is the second varint of `binary`
       DecodedVarInt multicodec = decodeVarint(binary, nOffset: 1);
-      var multicodecArray = dart_multihash.MultiCodecs.list()
-          .where((element) => element.code == multicodec.res);
+      var multicodecArray = dart_multihash.MultiCodecs.list().where((element) => element.code == multicodec.res);
       if (multicodecArray.isEmpty) {
         throw Exception("The multicodec code is not supported.");
       }
