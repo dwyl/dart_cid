@@ -52,7 +52,7 @@ Add the following to your
 
 ```yaml
 dependencies:
-  dart_cid: ^0.1.0
+  cid: ^1.0.0
 ```
 
 and run the following command 
