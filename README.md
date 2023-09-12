@@ -93,7 +93,7 @@ You just created your own fancy `cid`!
 >
 > Every `cid` generated with this 
 package will use the `raw` codec 
-and will be hashed using the `sha2-258`
+and will be hashed using the `sha2-256`
 algorithm.
 You may choose which base you want to encode it as, though.
 
