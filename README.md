@@ -1,8 +1,19 @@
+
+<div align="center">
+
 # cid
+
 
 A dart implementation of 
 `cid` ("content id") = human-friendly 
 (readable/typeable) unique ID for **distributed/decentralised systems**.
+
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/dwyl/dart_cid/ci.yml?label=build&style=flat-square&branch=main)
+[![codecov.io](https://img.shields.io/codecov/c/github/dwyl/dart_cid/main.svg?style=flat-square)](https://codecov.io/github/dwyl/dart_cid?branch=main)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square)](https://github.com/dwyl/dart_cid/issues)
+[![HitCount](https://hits.dwyl.com/dwyl/dart_cid.svg)](https://hits.dwyl.com/dwyl/dart_cid)
+
+</div>
 
 # Why 🤷
 
@@ -93,7 +104,7 @@ You just created your own fancy `cid`!
 >
 > Every `cid` generated with this 
 package will use the `raw` codec 
-and will be hashed using the `sha2-258`
+and will be hashed using the `sha2-256`
 algorithm.
 You may choose which base you want to encode it as, though.
 
