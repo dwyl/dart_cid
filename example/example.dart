@@ -1,4 +1,4 @@
-import 'package:dart_cid/dart_cid.dart';
+import 'package:cid/cid.dart';
 
 // Creating a v1 CID.
 String input = 'hello world';

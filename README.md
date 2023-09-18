@@ -1,7 +1,7 @@
 
 <div align="center">
 
-# dart_cid
+# cid
 
 
 A dart implementation of 
@@ -63,7 +63,7 @@ Add the following to your
 
 ```yaml
 dependencies:
-  dart_cid: ^0.1.0
+  cid: ^1.0.0
 ```
 
 and run the following command 
@@ -88,7 +88,7 @@ do open
 
 
 ```dart
-import 'package:dart_cid/dart_cid.dart';
+import 'package:cid/cid.dart';
 
 String input = 'hello world';
 CIDInfo output = CID.createCid(input, Multibase.base58btc);
