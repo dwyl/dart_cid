@@ -1,4 +1,4 @@
-# dart_cid
+# cid
 
 A dart implementation of 
 `cid` ("content id") = human-friendly 
@@ -77,7 +77,7 @@ do open
 
 
 ```dart
-import 'package:cid/dart_cid.dart';
+import 'package:cid/cid.dart';
 
 String input = 'hello world';
 CIDInfo output = CID.createCid(input, Multibase.base58btc);
